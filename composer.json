@@ -1,0 +1,26 @@
+{
+  "name": "phpdocumentor/flyfinder",
+  "description": "Flysystem plugin to add file finding capabilities to the Filesystem entity",
+  "keywords": ["flysystem", "phpdoc"],
+  "homepage": "http://www.phpdoc.org",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Flyfinder\\": ["src/"]
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Flyfinder\\": ["tests/unit/"]
+    }
+  },
+  "require": {
+    "php":              ">=5.5",
+    "league/flysystem": "~1.0.8"
+  },
+  "minimum-stability":  "stable",
+  "require-dev": {
+    "phpunit/phpunit":  "^4.0",
+    "mockery/mockery":  "~0.9@dev"
+  }
+}
