@@ -12,6 +12,7 @@
 
 namespace Flyfinder;
 
+use Generator;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\PluginInterface;
 use Flyfinder\Specification\SpecificationInterface;
