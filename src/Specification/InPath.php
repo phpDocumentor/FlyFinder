@@ -20,7 +20,6 @@ use Flyfinder\Path;
  */
 class InPath extends CompositeSpecification implements SpecificationInterface
 {
-
     /**
      * @var Path
      */
@@ -38,10 +37,10 @@ class InPath extends CompositeSpecification implements SpecificationInterface
     /**
      * Checks if the value meets the specification
      *
-     * @param $value
+     * @param mixed[] $value
      * @return bool
      */
-    public function isSatisfiedBy($value)
+    public function isSatisfiedBy(array $value)
     {
         return isset($value['dirname']) && $value['dirname'] === (string)$this->path ? true : false;
     }

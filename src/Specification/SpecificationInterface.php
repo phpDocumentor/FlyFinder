@@ -20,8 +20,8 @@ interface SpecificationInterface
     /**
      * Checks if the value meets the specification
      *
-     * @param $value
+     * @param mixed[] $value
      * @return bool
      */
-    public function isSatisfiedBy($value);
+    public function isSatisfiedBy(array $value);
 }

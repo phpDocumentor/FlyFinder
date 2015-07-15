@@ -21,11 +21,11 @@ class IsHidden extends CompositeSpecification implements SpecificationInterface
     /**
      * Checks if the value meets the specification
      *
-     * @param $value
+     * @param mixed[] $value
      * @return bool
      */
-    public function isSatisfiedBy($value)
+    public function isSatisfiedBy(array $value)
     {
-        return substr($value['basename'], 0, 1) === '.' ? true : false;
+        return isset($value['basename']) && substr($value['basename'], 0, 1) === '.' ? true : false;
     }
 }

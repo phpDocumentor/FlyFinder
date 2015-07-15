@@ -40,10 +40,10 @@ final class OrSpecification extends CompositeSpecification implements Specificat
     /**
      * Checks if the value meets the specification
      *
-     * @param $value
+     * @param mixed[] $value
      * @return bool
      */
-    public function isSatisfiedBy($value)
+    public function isSatisfiedBy(array $value)
     {
         return $this->one->isSatisfiedBy($value) || $this->other->isSatisfiedBy($value);
     }

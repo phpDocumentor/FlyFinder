@@ -44,7 +44,7 @@ class NotSpecificationTest extends \PHPUnit_Framework_TestCase
     {
         $this->hasExtension->shouldReceive('isSatisfiedBy')->once()->andReturn(false);
 
-        $this->assertTrue($this->fixture->isSatisfiedBy('test'));
+        $this->assertTrue($this->fixture->isSatisfiedBy(['test']));
     }
 
     /**
@@ -55,6 +55,6 @@ class NotSpecificationTest extends \PHPUnit_Framework_TestCase
     {
         $this->hasExtension->shouldReceive('isSatisfiedBy')->once()->andReturn(true);
 
-        $this->assertFalse($this->fixture->isSatisfiedBy('test'));
+        $this->assertFalse($this->fixture->isSatisfiedBy(['test']));
     }
 }

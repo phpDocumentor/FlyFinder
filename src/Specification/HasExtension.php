@@ -36,10 +36,10 @@ class HasExtension extends CompositeSpecification implements SpecificationInterf
     /**
      * Checks if the value meets the specification
      *
-     * @param $value
+     * @param mixed[] $value
      * @return bool
      */
-    public function isSatisfiedBy($value)
+    public function isSatisfiedBy(array $value)
     {
         return isset($value['extension']) && in_array($value['extension'], $this->extensions) ? true : false;
     }

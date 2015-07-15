@@ -30,14 +30,13 @@ final class NotSpecification extends CompositeSpecification implements Specifica
         $this->wrapped = $wrapped;
     }
 
-
     /**
      * Checks if the value meets the specification
      *
-     * @param $value
+     * @param mixed[] $value
      * @return bool
      */
-    public function isSatisfiedBy($value)
+    public function isSatisfiedBy(array $value)
     {
         return ! $this->wrapped->isSatisfiedBy($value);
     }

@@ -50,7 +50,7 @@ class AndSpecificationTest extends \PHPUnit_Framework_TestCase
         $this->hasExtension->shouldReceive('isSatisfiedBy')->once()->andReturn(true);
         $this->isHidden->shouldReceive('isSatisfiedBy')->once()->andReturn(true);
 
-        $this->assertTrue($this->fixture->isSatisfiedBy('test'));
+        $this->assertTrue($this->fixture->isSatisfiedBy(['test']));
     }
 
     /**
@@ -62,6 +62,6 @@ class AndSpecificationTest extends \PHPUnit_Framework_TestCase
         $this->hasExtension->shouldReceive('isSatisfiedBy')->once()->andReturn(true);
         $this->isHidden->shouldReceive('isSatisfiedBy')->once()->andReturn(false);
 
-        $this->assertFalse($this->fixture->isSatisfiedBy('test'));
+        $this->assertFalse($this->fixture->isSatisfiedBy(['test']));
     }
 }

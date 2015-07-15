@@ -38,6 +38,7 @@ class Finder implements PluginInterface
      * Set the Filesystem object.
      *
      * @param FilesystemInterface $filesystem
+     * @return void
      */
     public function setFilesystem(FilesystemInterface $filesystem)
     {
@@ -57,7 +58,7 @@ class Finder implements PluginInterface
 
     /**
      * @param SpecificationInterface $specification
-     * @param $path
+     * @param string $path
      * @return Generator
      */
     private function yieldFilesInPath(SpecificationInterface $specification, $path)
