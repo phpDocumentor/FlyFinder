@@ -44,9 +44,15 @@ class InPath extends CompositeSpecification implements SpecificationInterface
     public function isSatisfiedBy(array $value)
     {
         if (isset($value['dirname'])) {
-            $path = $this->removeDotSlash((string) $this->path);
+            $path = $this->cleanPath((string) $this->path);
 
-            if (substr($value['dirname'], 0, strlen($path)) === $path) {
+            $validChars = '[a-zA-Z0-9\\\/\.\<\>\,\|\:\(\)\&\;\#]';
+
+            $pattern = '(^(?!\/)'
+                . str_replace(['?', '*'], [$validChars . '?', $validChars . '*'], $path)
+                . $validChars . '*)';
+
+            if (preg_match($pattern, $value['dirname'] . '/')) {
                 return true;
             }
             return false;
@@ -56,15 +62,21 @@ class InPath extends CompositeSpecification implements SpecificationInterface
 
     /**
      * If a path is given with a leading ./ this will be removed
+     * If a path doesn't have a trailing /, a slash will be added
      *
-     * @param string $dirname
+     * @param string $path
      * @return string
      */
-    private function removeDotSlash($dirname)
+    private function cleanPath($path)
     {
-        if (substr($dirname, 0, 2) === './') {
-            $dirname = substr($dirname, 1);
+        if (substr($path, 0, 2) === './') {
+            $path = substr($path, 1);
         }
-        return $dirname;
+
+        if (substr($path, -1) !== '/') {
+            $path = $path . '/';
+        }
+
+        return $path;
     }
 }
