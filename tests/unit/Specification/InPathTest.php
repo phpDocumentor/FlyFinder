@@ -29,22 +29,24 @@ class InPathTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->fixture = new InPath(new Path('/tmp/test'));
+        $this->fixture = new InPath(new Path('.hiddendir'));
     }
 
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy
+     * @covers ::<private>
      * @uses Flyfinder\Path
      */
     public function testIfSpecificationIsSatisfied()
     {
-        $this->assertTrue($this->fixture->isSatisfiedBy(['dirname' => '/tmp/test']));
+        $this->assertTrue($this->fixture->isSatisfiedBy(['dirname' => '.hiddendir/normaldir']));
     }
 
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy
+     * @covers ::<private>
      * @uses Flyfinder\Path
      */
     public function testIfSpecificationIsNotSatisfied()

@@ -28,6 +28,8 @@ final class OrSpecification extends CompositeSpecification implements Specificat
     private $other;
 
     /**
+     * Initializes the OrSpecification object
+     *
      * @param CompositeSpecification $one
      * @param CompositeSpecification $other
      */

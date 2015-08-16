@@ -26,11 +26,12 @@ class InPath extends CompositeSpecification implements SpecificationInterface
     private $path;
 
     /**
+     * Initializes the InPath specification
+     *
      * @param Path $path
      */
     public function __construct(Path $path)
     {
-
         $this->path = $path;
     }
 
@@ -42,6 +43,28 @@ class InPath extends CompositeSpecification implements SpecificationInterface
      */
     public function isSatisfiedBy(array $value)
     {
-        return isset($value['dirname']) && $value['dirname'] === (string)$this->path ? true : false;
+        if (isset($value['dirname'])) {
+            $path = $this->removeDotSlash((string) $this->path);
+
+            if (substr($value['dirname'], 0, strlen($path)) === $path) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * If a path is given with a leading ./ this will be removed
+     *
+     * @param string $dirname
+     * @return string
+     */
+    private function removeDotSlash($dirname)
+    {
+        if (substr($dirname, 0, 2) === './') {
+            $dirname = substr($dirname, 1);
+        }
+        return $dirname;
     }
 }

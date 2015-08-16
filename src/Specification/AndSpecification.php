@@ -28,6 +28,8 @@ final class AndSpecification extends CompositeSpecification implements Specifica
     private $other;
 
     /**
+     * Initializes the AndSpecification object
+     *
      * @param CompositeSpecification $one
      * @param CompositeSpecification $other
      */
