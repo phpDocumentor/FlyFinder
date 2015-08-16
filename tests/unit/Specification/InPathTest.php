@@ -55,7 +55,8 @@ class InPathTest extends \PHPUnit_Framework_TestCase
             ['.hiddendir/n'],
             ['.hiddendir/n/'],
             ['.hiddendir/n/somedir'],
-            ['.hiddendir/n/somedir.txt']
+            ['.hiddendir/n/somedir.txt'],
+            ['ddenxir/n']
         ];
     }
 
@@ -63,7 +64,7 @@ class InPathTest extends \PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      * @covers ::<private>
-     * @dataProvider InvalidDirnames
+     * @dataProvider invalidDirnames
      * @uses Flyfinder\Path
      */
     public function testIfSpecificationIsNotSatisfied($dirname)
@@ -76,12 +77,14 @@ class InPathTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function InvalidDirnames()
+    public function invalidDirnames()
     {
         return [
             ['/hiddendir/n'],
             ['.hiddendir/normaldir'],
-            ['.hiddendir.ext/n']
+            ['.hiddendir.ext/n'],
+            ['.hiddenxxir/n'],
+            ['.hiddenir/n']
         ];
     }
 }

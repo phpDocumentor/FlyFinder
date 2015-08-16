@@ -49,7 +49,7 @@ class InPath extends CompositeSpecification implements SpecificationInterface
             $validChars = '[a-zA-Z0-9\\\/\.\<\>\,\|\:\(\)\&\;\#]';
 
             $pattern = '(^(?!\/)'
-                . str_replace(['?', '*'], [$validChars . '?', $validChars . '*'], $path)
+                . str_replace(['?', '*'], [$validChars . '{1}', $validChars . '*'], $path)
                 . $validChars . '*)';
 
             if (preg_match($pattern, $value['dirname'] . '/')) {
