@@ -29,26 +29,62 @@ class InPathTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->fixture = new InPath(new Path('/tmp/test'));
+        $this->fixture = new InPath(new Path('*dden?ir/n'));
     }
 
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy
+     * @covers ::<private>
+     * @dataProvider validDirnames
      * @uses Flyfinder\Path
      */
-    public function testIfSpecificationIsSatisfied()
+    public function testIfSpecificationIsSatisfied($dirname)
     {
-        $this->assertTrue($this->fixture->isSatisfiedBy(['dirname' => '/tmp/test']));
+        $this->assertTrue($this->fixture->isSatisfiedBy(['dirname' => $dirname]));
+    }
+
+    /**
+     * Data provider for testIfSpecificationIsSatisfied. Contains a few valid directory names
+     *
+     * @return array
+     */
+    public function validDirnames()
+    {
+        return [
+            ['.hiddendir/n'],
+            ['.hiddendir/n/'],
+            ['.hiddendir/n/somedir'],
+            ['.hiddendir/n/somedir.txt'],
+            ['ddenxir/n']
+        ];
     }
 
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy
+     * @covers ::<private>
+     * @dataProvider invalidDirnames
      * @uses Flyfinder\Path
      */
-    public function testIfSpecificationIsNotSatisfied()
+    public function testIfSpecificationIsNotSatisfied($dirname)
     {
-        $this->assertFalse($this->fixture->isSatisfiedBy(['dirname' => '/home']));
+        $this->assertFalse($this->fixture->isSatisfiedBy(['dirname' => $dirname]));
+    }
+
+    /**
+     * Data provider for testIfSpecificationIsNotSatisfied. Contains a few valid directory names
+     *
+     * @return array
+     */
+    public function invalidDirnames()
+    {
+        return [
+            ['/hiddendir/n'],
+            ['.hiddendir/normaldir'],
+            ['.hiddendir.ext/n'],
+            ['.hiddenxxir/n'],
+            ['.hiddenir/n']
+        ];
     }
 }

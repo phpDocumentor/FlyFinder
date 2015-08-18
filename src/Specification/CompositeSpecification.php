@@ -19,6 +19,9 @@ namespace Flyfinder\Specification;
 abstract class CompositeSpecification
 {
     /**
+     * Returns a specification that satisfies the original specification
+     * as well as the other specification
+     *
      * @param CompositeSpecification $other
      * @return AndSpecification
      */
@@ -28,6 +31,9 @@ abstract class CompositeSpecification
     }
 
     /**
+     * Returns a specification that satisfies the original specification
+     * or the other specification
+     *
      * @param CompositeSpecification $other
      * @return OrSpecification
      */
@@ -37,6 +43,9 @@ abstract class CompositeSpecification
     }
 
     /**
+     * Returns a specification that is the inverse of the original specification
+     * i.e. does not meet the original criteria
+     *
      * @return NotSpecification
      */
     public function notSpecification()

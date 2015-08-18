@@ -23,6 +23,8 @@ final class NotSpecification extends CompositeSpecification implements Specifica
     private $wrapped;
 
     /**
+     * Initializes the NotSpecification object
+     *
      * @param CompositeSpecification $wrapped
      */
     public function __construct(CompositeSpecification $wrapped)

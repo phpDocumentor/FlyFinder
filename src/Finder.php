@@ -47,6 +47,8 @@ class Finder implements PluginInterface
     }
 
     /**
+     * Find the specified files
+     *
      * @param SpecificationInterface $specification
      * @return Generator
      */
@@ -58,6 +60,8 @@ class Finder implements PluginInterface
     }
 
     /**
+     * Recursively yield files that meet the specification
+     *
      * @param SpecificationInterface $specification
      * @param string $path
      * @return Generator
