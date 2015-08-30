@@ -73,7 +73,7 @@ class InPathTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider for testIfSpecificationIsNotSatisfied. Contains a few valid directory names
+     * Data provider for testIfSpecificationIsNotSatisfied. Contains a few invalid directory names
      *
      * @return array
      */
