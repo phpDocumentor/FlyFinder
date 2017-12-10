@@ -45,6 +45,32 @@ class InPathTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers ::__construct
+     * @covers ::isSatisfiedBy
+     * @covers ::<private>
+     * @dataProvider validDirnames
+     * @uses Flyfinder\Path
+     */
+    public function testWithSingleDotSpec($dirname)
+    {
+        $spec = new InPath(new Path('.'));
+        $this->assertTrue($spec->isSatisfiedBy(['dirname' => $dirname]));
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::isSatisfiedBy
+     * @covers ::<private>
+     * @dataProvider validDirnames
+     * @uses Flyfinder\Path
+     */
+    public function testWithCurrentDirSpec($dirname)
+    {
+        $spec = new InPath(new Path('./'));
+        $this->assertTrue($spec->isSatisfiedBy(['dirname' => $dirname]));
+    }
+
+    /**
      * Data provider for testIfSpecificationIsSatisfied. Contains a few valid directory names
      *
      * @return array

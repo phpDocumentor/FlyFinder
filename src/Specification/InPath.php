@@ -45,7 +45,6 @@ class InPath extends CompositeSpecification implements SpecificationInterface
     {
         if (isset($value['dirname'])) {
             $path = $this->cleanPath((string) $this->path);
-
             $validChars = '[a-zA-Z0-9\\\/\.\<\>\,\|\:\(\)\&\;\#]';
 
             $pattern = '(^(?!\/)'
@@ -69,6 +68,10 @@ class InPath extends CompositeSpecification implements SpecificationInterface
      */
     private function cleanPath($path)
     {
+        if ($path === '.' || $path === './') {
+            return '';
+        }
+
         if (substr($path, 0, 2) === './') {
             $path = substr($path, 1);
         }
