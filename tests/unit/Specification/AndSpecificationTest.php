@@ -42,6 +42,11 @@ class AndSpecificationTest extends TestCase
         $this->fixture = new AndSpecification($this->hasExtension, $this->isHidden);
     }
 
+    public function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy

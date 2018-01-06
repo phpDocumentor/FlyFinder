@@ -26,6 +26,11 @@ class InPathTest extends TestCase
     /** @var InPath */
     private $fixture;
 
+    public function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy

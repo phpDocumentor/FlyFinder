@@ -32,6 +32,11 @@ class IsHiddenTest extends TestCase
         $this->fixture = new IsHidden();
     }
 
+    public function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::isSatisfiedBy
      */

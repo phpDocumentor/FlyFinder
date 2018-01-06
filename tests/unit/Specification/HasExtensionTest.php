@@ -32,6 +32,11 @@ class HasExtensionTest extends TestCase
         $this->fixture = new HasExtension(['txt']);
     }
 
+    public function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy

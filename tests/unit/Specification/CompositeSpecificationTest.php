@@ -37,6 +37,11 @@ class CompositeSpecificationTest extends TestCase
         $this->fixture = $this->getMockForAbstractClass('Flyfinder\Specification\CompositeSpecification');
     }
 
+    public function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::andSpecification
      * @uses Flyfinder\Specification\AndSpecification

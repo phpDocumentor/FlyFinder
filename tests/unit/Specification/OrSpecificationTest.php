@@ -42,6 +42,11 @@ class OrSpecificationTest extends TestCase
         $this->fixture = new OrSpecification($this->hasExtension, $this->isHidden);
     }
 
+    public function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy

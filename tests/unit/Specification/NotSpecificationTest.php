@@ -37,6 +37,11 @@ class NotSpecificationTest extends TestCase
         $this->fixture = new NotSpecification($this->hasExtension);
     }
 
+    public function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy

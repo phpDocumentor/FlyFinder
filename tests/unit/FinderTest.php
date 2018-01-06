@@ -34,6 +34,11 @@ class FinderTest extends TestCase
         $this->fixture = new Finder();
     }
 
+    public function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::getMethod
      */
