@@ -28,7 +28,14 @@ class InPathTest extends \PHPUnit_Framework_TestCase
     {
         $absolutePath = 'absolute/path/to/file.txt';
         $spec = new InPath(new Path($absolutePath));
-        $this->assertTrue($spec->isSatisfiedBy(['dirname' => $absolutePath]));
+        $this->assertTrue($spec->isSatisfiedBy([
+            'type' => 'file',
+            'path' => $absolutePath,
+            'dirname' => $absolutePath,
+            'filename' => 'file',
+            'extension' => 'txt',
+            'basename' => 'file.txt'
+        ]));
     }
 
     protected function useWildcardPath()
