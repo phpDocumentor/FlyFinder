@@ -40,6 +40,7 @@ FlyFinder will need specifications to know what to look for. The following speci
 - IsHidden (this specification will return `true` when a file or directory is hidden,
 - HasExtension (this specification will return `true` when a file or directory has the specified extension),
 - InPath (this specification will return `true` when a file is in the given path. Wildcards are allowed.)
+  - note that this path should be considered relative to the `$filesystem`'s path
 
 Specifications can be instantiated as follows:
 
