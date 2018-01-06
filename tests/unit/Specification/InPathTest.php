@@ -24,6 +24,13 @@ class InPathTest extends \PHPUnit_Framework_TestCase
     /** @var InPath */
     private $fixture;
 
+    /**
+     * @covers ::__construct
+     * @covers ::isSatisfiedBy
+     * @covers ::<private>
+     * @dataProvider validDirnames
+     * @uses Flyfinder\Path
+     */
     public function testExactMatch()
     {
         $absolutePath = 'absolute/path/to/file.txt';
