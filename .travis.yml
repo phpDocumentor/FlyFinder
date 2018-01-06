@@ -13,7 +13,7 @@ jobs:
   include:
     - stage: Test
       script:
-        - bin/phpunit --no-coverage
+        - vendor/bin/phpunit --no-coverage
 
     - stage: Lint
       php: 7.1
@@ -28,7 +28,7 @@ jobs:
     - stage: Coverage
       php: 7.1
       script:
-        - bin/phpunit
+        - vendor/bin/phpunit
       after_script:
         - wget https://scrutinizer-ci.com/ocular.phar
         - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
