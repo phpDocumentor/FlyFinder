@@ -25,6 +25,7 @@ class FindOnMultipleCriteriaTest extends TestCase
      */
     public function testFindingFilesOnMultipleCriteria()
     {
+        $result = [];
         include(__DIR__ . '/../../examples/02-find-on-multiple-criteria.php');
 
         $this->assertEquals(2, count($result));

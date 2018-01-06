@@ -25,6 +25,7 @@ class FindHiddenFilesTest extends TestCase
      */
     public function testFindingHiddenFiles()
     {
+        $result = [];
         include(__DIR__ . '/../../examples/01-find-hidden-files.php');
 
         $this->assertEquals(1, count($result));

@@ -25,6 +25,7 @@ class FindOnSamplePhpdocLayout extends TestCase
      */
     public function testFindingOnSamplePhpdocLayout()
     {
+        $result = [];
         include(__DIR__ . '/../../examples/03-sample-phpdoc-layout.php');
 
         $this->assertEquals(4, count($result));
