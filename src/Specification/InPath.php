@@ -16,7 +16,10 @@ use Flyfinder\Path;
 
 /**
  * Class InPath
- * Files and directories meet the specification if they are in the given path
+ *
+ * Files *and directories* meet the specification if they are in the given path.
+ * Note this behavior is different than in Finder, in that directories *can* meet the spec,
+ * whereas Finder would never return a directory as "found".
  */
 class InPath extends CompositeSpecification implements SpecificationInterface
 {
@@ -43,43 +46,46 @@ class InPath extends CompositeSpecification implements SpecificationInterface
      */
     public function isSatisfiedBy(array $value)
     {
-        if (isset($value['dirname'])) {
-            $path = $this->cleanPath((string) $this->path);
-            $validChars = '[a-zA-Z0-9\\\/\.\<\>\,\|\:\(\)\&\;\#]';
+        if (in_array($this->path, ['', '.', './'])) {
+            /*
+             * since flysystem stuff is always relative to the filesystem object's root,
+             * a spec of "current" dir should always be a match anything being considered
+             */
+            return true;
+        }
 
+        $path = (string) $this->path;
+        $validChars = '[a-zA-Z0-9\\\/\.\<\>\,\|\:\(\)\&\;\#]';
+
+        /*
+         * a FILE spec would have to match on 'path',
+         *   e.g. value path 'src/Cilex/Provider/MonologServiceProvider.php' should match FILE spec of same path...
+         * this should also hit a perfect DIR=DIR_SPEC match,
+         *   e.g. value path 'src/Cilex/Provider' should match DIR spec of 'src/Cilex/Provider'
+         */
+        if (isset($value['path'])) {
             $pattern = '(^(?!\/)'
                 . str_replace(['?', '*'], [$validChars . '{1}', $validChars . '*'], $path)
-                . $validChars . '*)';
+                . $validChars . '*)'
+            ;
+            if (preg_match($pattern, $value['path'])) {
+                return true;
+            }
+        }
 
+        /* a DIR spec that wasn't an exact match should be able to match on dirname,
+         *   e.g. value dirname 'src' of path 'src/Cilex' should match DIR spec of 'src'
+         */
+        if (isset($value['dirname'])) {
+            $pattern = '(^(?!\/)'
+                . str_replace(['?', '*'], [$validChars . '{1}', $validChars . '*'], $path . '/')
+                . $validChars . '*)'
+            ;
             if (preg_match($pattern, $value['dirname'] . '/')) {
                 return true;
             }
-            return false;
         }
+
         return false;
-    }
-
-    /**
-     * If a path is given with a leading ./ this will be removed
-     * If a path doesn't have a trailing /, a slash will be added
-     *
-     * @param string $path
-     * @return string
-     */
-    private function cleanPath($path)
-    {
-        if ($path === '.' || $path === './') {
-            return '';
-        }
-
-        if (substr($path, 0, 2) === './') {
-            $path = substr($path, 1);
-        }
-
-        if (substr($path, -1) !== '/') {
-            $path = $path . '/';
-        }
-
-        return $path;
     }
 }

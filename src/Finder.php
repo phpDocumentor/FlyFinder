@@ -18,7 +18,9 @@ use League\Flysystem\PluginInterface;
 use Flyfinder\Specification\SpecificationInterface;
 
 /**
- * Flysystem plugin to add file finding capabilities to the filesystem entity
+ * Flysystem plugin to add file finding capabilities to the filesystem entity.
+ *
+ * Note that found *directories* are **not** returned... only found *files*.
  */
 class Finder implements PluginInterface
 {
@@ -49,18 +51,28 @@ class Finder implements PluginInterface
     /**
      * Find the specified files
      *
+     * Note that only found *files* are yielded at this level,
+     * which go back to the caller.
+     *
      * @param SpecificationInterface $specification
      * @return Generator
      */
     public function handle(SpecificationInterface $specification)
     {
         foreach ($this->yieldFilesInPath($specification, '') as $path) {
-            yield $path;
+            if (isset($path['type']) && $path['type'] === 'file') {
+                yield $path;
+            }
         }
     }
 
     /**
      * Recursively yield files that meet the specification
+     *
+     * Note that directories are also yielded at this level,
+     * since they have to be recursed into.  Yielded directories
+     * will not make their way back to the caller, as they are filtered out
+     * by {@link handle()}.
      *
      * @param SpecificationInterface $specification
      * @param string $path

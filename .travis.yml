@@ -1,0 +1,39 @@
+language: php
+php: [7.0, 7.1, 7.2, nightly ]
+sudo: false
+
+env:
+  global:
+    - VERSION=$(echo $TRAVIS_TAG | cut -c 2-10)
+
+install:
+- composer install --no-interaction --prefer-dist -o
+
+jobs:
+  include:
+    - stage: Test
+      script:
+        - vendor/bin/phpunit
+
+    - stage: Coverage
+      php: 7.1
+      script:
+        - vendor/bin/phpunit
+      after_script:
+        - wget https://scrutinizer-ci.com/ocular.phar
+        - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+
+  allow_failures:
+    - php: nightly
+
+cache:
+  directories:
+  - $HOME/.composer/cache/files
+
+notifications:
+  irc: irc.freenode.org#phpdocumentor
+  slack:
+    secure: fjumM0h+4w3EYM4dpgqvpiCug7m4sSIC5+HATgwga/Nrc6IjlbWvGOv3JPgD3kQUhi18VmZfUYPmCv916SIbMnv8JWcrSaJXnPCgmxidvYkuzQDIw1HDJbVppGnkmwQA/qjIrM3sIEMfnu/arLRJQLI363aStZzGPxwIa4PDKcg=
+  email:
+  - me@mikevanriel.com
+  - ashnazg@php.net

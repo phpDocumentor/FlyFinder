@@ -18,6 +18,7 @@ use Flyfinder\Path;
 /**
  * Test case for InPath
  * @coversDefaultClass Flyfinder\Specification\InPath
+ * @covers ::<private>
  */
 class InPathTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,9 +26,26 @@ class InPathTest extends \PHPUnit_Framework_TestCase
     private $fixture;
 
     /**
-     * Initializes the fixture for this test.
+     * @covers ::__construct
+     * @covers ::isSatisfiedBy
+     * @dataProvider validDirnames
+     * @uses Flyfinder\Path
      */
-    public function setUp()
+    public function testExactMatch()
+    {
+        $absolutePath = 'absolute/path/to/file.txt';
+        $spec = new InPath(new Path($absolutePath));
+        $this->assertTrue($spec->isSatisfiedBy([
+            'type' => 'file',
+            'path' => $absolutePath,
+            'dirname' => $absolutePath,
+            'filename' => 'file',
+            'extension' => 'txt',
+            'basename' => 'file.txt'
+        ]));
+    }
+
+    private function useWildcardPath()
     {
         $this->fixture = new InPath(new Path('*dden?ir/n'));
     }
@@ -35,19 +53,18 @@ class InPathTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy
-     * @covers ::<private>
      * @dataProvider validDirnames
      * @uses Flyfinder\Path
      */
     public function testIfSpecificationIsSatisfied($dirname)
     {
+        $this->useWildcardPath();
         $this->assertTrue($this->fixture->isSatisfiedBy(['dirname' => $dirname]));
     }
 
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy
-     * @covers ::<private>
      * @dataProvider validDirnames
      * @uses Flyfinder\Path
      */
@@ -60,7 +77,6 @@ class InPathTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy
-     * @covers ::<private>
      * @dataProvider validDirnames
      * @uses Flyfinder\Path
      */
@@ -89,12 +105,12 @@ class InPathTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy
-     * @covers ::<private>
      * @dataProvider invalidDirnames
      * @uses Flyfinder\Path
      */
     public function testIfSpecificationIsNotSatisfied($dirname)
     {
+        $this->useWildcardPath();
         $this->assertFalse($this->fixture->isSatisfiedBy(['dirname' => $dirname]));
     }
 

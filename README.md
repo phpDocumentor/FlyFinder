@@ -1,11 +1,19 @@
+[![Build Status](https://travis-ci.org/phpDocumentor/FlyFinder.svg?branch=master)](https://travis-ci.org/phpDocumentor/FlyFinder)
+[![Build status](https://ci.appveyor.com/api/projects/status/2suhb82i8pf3m5xv/branch/master?svg=true)](https://ci.appveyor.com/project/ashnazg/flyfinder/branch/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/?branch=master)
+
+
 FlyFinder
 ================================================================================================================
 
 FlyFinder is a plugin for [Flysystem](http://flysystem.thephpleague.com/) that will enable you to find files
 based on certain criteria.
 
-FlyFinder can search for files and directories that are hidden, that have a certain extension or that exist in a
-certain path.
+FlyFinder can search for files that are hidden (either because they are hidden files themselves, or because they are
+inside a hidden directory), that have a certain extension, or that exist in a certain path.
+
+Flyfinder does *not* return directories themselves... only files.
 
 ## Installation
 
@@ -38,6 +46,7 @@ FlyFinder will need specifications to know what to look for. The following speci
 - IsHidden (this specification will return `true` when a file or directory is hidden,
 - HasExtension (this specification will return `true` when a file or directory has the specified extension),
 - InPath (this specification will return `true` when a file is in the given path. Wildcards are allowed.)
+  - note that this path should be considered relative to the `$filesystem`'s path
 
 Specifications can be instantiated as follows:
 

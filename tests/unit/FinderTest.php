@@ -55,21 +55,26 @@ class FinderTest extends \PHPUnit_Framework_TestCase
             0 => [
                 "type" => "dir",
                 "path" => ".hiddendir",
-                "basename" => ".hiddendir"
-                ],
+                "dirname" => "",
+                "basename" => ".hiddendir",
+                "filename" => ".hiddendir",
+            ],
             1 => [
                 "type" => "file",
                 "path" => "test.txt",
                 "basename" => "test.txt"
-                ]
-            ];
+            ],
+        ];
 
         $listContents2 = [
-           0 => [
+            0 => [
                 "type" => "file",
                 "path" => ".hiddendir/.test.txt",
-                "basename" => ".test.txt"
-            ]
+                "dirname" => ".hiddendir",
+                "basename" => ".test.txt",
+                "filename" => ".test",
+                "extension" => "txt",
+            ],
         ];
 
         $filesystem->shouldReceive('listContents')
@@ -103,14 +108,12 @@ class FinderTest extends \PHPUnit_Framework_TestCase
 
         $expected = [
             0 => [
-                "type" => "dir",
-                "path" => ".hiddendir",
-                "basename" => ".hiddendir"
-            ],
-            1 => [
                 "type" => "file",
                 "path" => ".hiddendir/.test.txt",
-                "basename" => ".test.txt"
+                "dirname" => ".hiddendir",
+                "basename" => ".test.txt",
+                "filename" => ".test",
+                "extension" => "txt",
             ]
         ];
 
