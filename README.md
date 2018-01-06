@@ -4,8 +4,10 @@ FlyFinder
 FlyFinder is a plugin for [Flysystem](http://flysystem.thephpleague.com/) that will enable you to find files
 based on certain criteria.
 
-FlyFinder can search for files and directories that are hidden, that have a certain extension or that exist in a
-certain path.
+FlyFinder can search for files that are hidden (either because they are hidden files themselves, or because they are
+inside a hidden directory), that have a certain extension, or that exist in a certain path.
+
+Flyfinder does *not* return directories themselves... only files.
 
 ## Installation
 
