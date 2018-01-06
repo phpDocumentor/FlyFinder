@@ -72,7 +72,7 @@ class FinderTest extends \PHPUnit_Framework_TestCase
                 "path" => ".hiddendir/.test.txt",
                 "dirname" => ".hiddendir",
                 "basename" => ".test.txt",
-                "filename" => ".text",
+                "filename" => ".test",
                 "extension" => "txt",
             ],
         ];
@@ -112,7 +112,7 @@ class FinderTest extends \PHPUnit_Framework_TestCase
                 "path" => ".hiddendir/.test.txt",
                 "dirname" => ".hiddendir",
                 "basename" => ".test.txt",
-                "filename" => ".text",
+                "filename" => ".test",
                 "extension" => "txt",
             ]
         ];
