@@ -23,5 +23,5 @@ interface SpecificationInterface
      * @param mixed[] $value
      * @return bool
      */
-    public function isSatisfiedBy(array $value);
+    public function isSatisfiedBy(array $value) : bool;
 }

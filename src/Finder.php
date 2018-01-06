@@ -32,7 +32,7 @@ class Finder implements PluginInterface
      *
      * @return string
      */
-    public function getMethod()
+    public function getMethod() : string
     {
         return 'find';
     }
@@ -57,7 +57,7 @@ class Finder implements PluginInterface
      * @param SpecificationInterface $specification
      * @return Generator
      */
-    public function handle(SpecificationInterface $specification)
+    public function handle(SpecificationInterface $specification) : Generator
     {
         foreach ($this->yieldFilesInPath($specification, '') as $path) {
             if (isset($path['type']) && $path['type'] === 'file') {
@@ -78,7 +78,7 @@ class Finder implements PluginInterface
      * @param string $path
      * @return Generator
      */
-    private function yieldFilesInPath(SpecificationInterface $specification, $path)
+    private function yieldFilesInPath(SpecificationInterface $specification, string $path) : Generator
     {
         $listContents = $this->filesystem->listContents($path);
         foreach ($listContents as $location) {

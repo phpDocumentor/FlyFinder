@@ -28,7 +28,7 @@ class HasExtension extends CompositeSpecification implements SpecificationInterf
      *
      * @param string[] $extensions
      */
-    public function __construct($extensions)
+    public function __construct(array $extensions)
     {
         $this->extensions = $extensions;
     }
@@ -39,7 +39,7 @@ class HasExtension extends CompositeSpecification implements SpecificationInterf
      * @param mixed[] $value
      * @return bool
      */
-    public function isSatisfiedBy(array $value)
+    public function isSatisfiedBy(array $value) : bool
     {
         return isset($value['extension']) && in_array($value['extension'], $this->extensions) ? true : false;
     }

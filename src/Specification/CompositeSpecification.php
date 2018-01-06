@@ -25,7 +25,7 @@ abstract class CompositeSpecification
      * @param CompositeSpecification $other
      * @return AndSpecification
      */
-    public function andSpecification(CompositeSpecification $other)
+    public function andSpecification(CompositeSpecification $other) : AndSpecification
     {
         return new AndSpecification($this, $other);
     }
@@ -37,7 +37,7 @@ abstract class CompositeSpecification
      * @param CompositeSpecification $other
      * @return OrSpecification
      */
-    public function orSpecification(CompositeSpecification $other)
+    public function orSpecification(CompositeSpecification $other) : OrSpecification
     {
         return new OrSpecification($this, $other);
     }
@@ -48,7 +48,7 @@ abstract class CompositeSpecification
      *
      * @return NotSpecification
      */
-    public function notSpecification()
+    public function notSpecification() : NotSpecification
     {
         return new NotSpecification($this);
     }
