@@ -1,3 +1,9 @@
+[![Build Status](https://travis-ci.org/phpDocumentor/FlyFinder.svg?branch=master)](https://travis-ci.org/phpDocumentor/FlyFinder)
+[![Build status](https://ci.appveyor.com/api/projects/status/2suhb82i8pf3m5xv/branch/master?svg=true)](https://ci.appveyor.com/project/ashnazg/flyfinder/branch/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/?branch=master)
+
+
 FlyFinder
 ================================================================================================================
 
