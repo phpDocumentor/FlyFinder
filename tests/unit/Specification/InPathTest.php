@@ -18,6 +18,7 @@ use Flyfinder\Path;
 /**
  * Test case for InPath
  * @coversDefaultClass Flyfinder\Specification\InPath
+ * @covers ::<private>
  */
 class InPathTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +28,6 @@ class InPathTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy
-     * @covers ::<private>
      * @dataProvider validDirnames
      * @uses Flyfinder\Path
      */
@@ -45,7 +45,7 @@ class InPathTest extends \PHPUnit_Framework_TestCase
         ]));
     }
 
-    protected function useWildcardPath()
+    private function useWildcardPath()
     {
         $this->fixture = new InPath(new Path('*dden?ir/n'));
     }
@@ -53,7 +53,6 @@ class InPathTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy
-     * @covers ::<private>
      * @dataProvider validDirnames
      * @uses Flyfinder\Path
      */
@@ -66,7 +65,6 @@ class InPathTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy
-     * @covers ::<private>
      * @dataProvider validDirnames
      * @uses Flyfinder\Path
      */
@@ -79,7 +77,6 @@ class InPathTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy
-     * @covers ::<private>
      * @dataProvider validDirnames
      * @uses Flyfinder\Path
      */
@@ -108,7 +105,6 @@ class InPathTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::__construct
      * @covers ::isSatisfiedBy
-     * @covers ::<private>
      * @dataProvider invalidDirnames
      * @uses Flyfinder\Path
      */
