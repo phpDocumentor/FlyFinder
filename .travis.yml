@@ -13,7 +13,7 @@ jobs:
   include:
     - stage: Test
       script:
-        - vendor/bin/phpunit --no-coverage
+        - vendor/bin/phpunit
 
     - stage: Lint
       php: 7.1
