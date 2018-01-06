@@ -24,10 +24,14 @@ class InPathTest extends \PHPUnit_Framework_TestCase
     /** @var InPath */
     private $fixture;
 
-    /**
-     * Initializes the fixture for this test.
-     */
-    public function setUp()
+    public function testExactMatch()
+    {
+        $absolutePath = 'absolute/path/to/file.txt';
+        $spec = new InPath(new Path($absolutePath));
+        $this->assertTrue($spec->isSatisfiedBy(['dirname' => $absolutePath]));
+    }
+
+    protected function useWildcardPath()
     {
         $this->fixture = new InPath(new Path('*dden?ir/n'));
     }
@@ -41,6 +45,7 @@ class InPathTest extends \PHPUnit_Framework_TestCase
      */
     public function testIfSpecificationIsSatisfied($dirname)
     {
+        $this->useWildcardPath();
         $this->assertTrue($this->fixture->isSatisfiedBy(['dirname' => $dirname]));
     }
 
@@ -95,6 +100,7 @@ class InPathTest extends \PHPUnit_Framework_TestCase
      */
     public function testIfSpecificationIsNotSatisfied($dirname)
     {
+        $this->useWildcardPath();
         $this->assertFalse($this->fixture->isSatisfiedBy(['dirname' => $dirname]));
     }
 
