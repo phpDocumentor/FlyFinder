@@ -12,6 +12,7 @@
 
 namespace Flyfinder;
 
+use PHPUnit\Framework\TestCase;
 use Mockery as m;
 use Flyfinder\Specification\IsHidden;
 use League\Flysystem\Filesystem;
@@ -20,7 +21,7 @@ use League\Flysystem\Filesystem;
  * Test case for Finder
  * @coversDefaultClass Flyfinder\Finder
  */
-class FinderTest extends \PHPUnit_Framework_TestCase
+class FinderTest extends TestCase
 {
    /** @var Finder */
     private $fixture;

@@ -12,11 +12,13 @@
 
 namespace Flyfinder;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Integration test against examples/03-sample-phpdoc-layout.php
  * @coversNothing
  */
-class FindOnSamplePhpdocLayout extends \PHPUnit_Framework_TestCase
+class FindOnSamplePhpdocLayout extends TestCase
 {
     /**
      * @var string[] $result

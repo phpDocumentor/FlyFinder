@@ -12,6 +12,7 @@
 
 namespace Flyfinder\Specification;
 
+use PHPUnit\Framework\TestCase;
 use Mockery as m;
 use Flyfinder\Specification\HasExtension;
 
@@ -19,7 +20,7 @@ use Flyfinder\Specification\HasExtension;
  * Test case for NotSpecification
  * @coversDefaultClass Flyfinder\Specification\NotSpecification
  */
-class NotSpecificationTest extends \PHPUnit_Framework_TestCase
+class NotSpecificationTest extends TestCase
 {
     /** @var HasExtension */
     private $hasExtension;

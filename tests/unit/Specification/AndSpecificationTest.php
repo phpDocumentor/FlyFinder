@@ -12,6 +12,7 @@
 
 namespace Flyfinder\Specification;
 
+use PHPUnit\Framework\TestCase;
 use Mockery as m;
 use Flyfinder\Specification\HasExtension;
 use Flyfinder\Specification\IsHidden;
@@ -20,7 +21,7 @@ use Flyfinder\Specification\IsHidden;
  * Test case for AndSpecification
  * @coversDefaultClass Flyfinder\Specification\AndSpecification
  */
-class AndSpecificationTest extends \PHPUnit_Framework_TestCase
+class AndSpecificationTest extends TestCase
 {
     /** @var HasExtension */
     private $hasExtension;

@@ -12,13 +12,14 @@
 
 namespace Flyfinder\Specification;
 
+use PHPUnit\Framework\TestCase;
 use Mockery as m;
 
 /**
  * Test case for HasExtension
  * @coversDefaultClass Flyfinder\Specification\HasExtension
  */
-class HasExtensionTest extends \PHPUnit_Framework_TestCase
+class HasExtensionTest extends TestCase
 {
     /** @var HasExtension */
     private $fixture;

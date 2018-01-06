@@ -12,11 +12,13 @@
 
 namespace Flyfinder;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Integration test against examples/02-find-on-multiple-criteria.php
  * @coversNothing
  */
-class FindOnMultipleCriteriaTest extends \PHPUnit_Framework_TestCase
+class FindOnMultipleCriteriaTest extends TestCase
 {
     /**
      * @var string[] $result

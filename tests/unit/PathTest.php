@@ -12,11 +12,13 @@
 
 namespace Flyfinder;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test case for Path
  * @coversDefaultClass Flyfinder\Path
  */
-class PathTest extends \PHPUnit_Framework_TestCase
+class PathTest extends TestCase
 {
     /**
      * @covers ::__construct

@@ -12,11 +12,13 @@
 
 namespace Flyfinder;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Integration test against examples/01-find-hidden-files.php
  * @coversNothing
  */
-class FindHiddenFilesTest extends \PHPUnit_Framework_TestCase
+class FindHiddenFilesTest extends TestCase
 {
     /**
      * @var string[] $result
