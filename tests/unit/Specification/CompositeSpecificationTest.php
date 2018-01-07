@@ -24,7 +24,7 @@ class CompositeSpecificationTest extends TestCase
     /** @var HasExtension */
     private $hasExtension;
 
-    /** @var CompositeSpecification */
+    /** @var m::MockObject|CompositeSpecification */
     private $fixture;
 
     /**
