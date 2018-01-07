@@ -14,8 +14,6 @@ namespace Flyfinder;
 
 use PHPUnit\Framework\TestCase;
 use Mockery as m;
-use Flyfinder\Specification\IsHidden;
-use League\Flysystem\Filesystem;
 
 /**
  * Test case for Finder

@@ -14,8 +14,6 @@ namespace Flyfinder\Specification;
 
 use PHPUnit\Framework\TestCase;
 use Mockery as m;
-use Flyfinder\Specification\HasExtension;
-use Flyfinder\Specification\IsHidden;
 
 /**
  * Test case for OrSpecification
