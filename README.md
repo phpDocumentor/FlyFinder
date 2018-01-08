@@ -1,7 +1,8 @@
 [![Travis Status](https://travis-ci.org/phpDocumentor/FlyFinder.svg?branch=master)](https://travis-ci.org/phpDocumentor/FlyFinder)
-[![Appveyor status](https://ci.appveyor.com/api/projects/status/2xpc16hq56n5v1x5/branch/master?svg=true)](https://ci.appveyor.com/project/phpDocumentor/flyfinder/branch/master)
-[![Code Coverage](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/?branch=master)
+[![Appveyor Status](https://ci.appveyor.com/api/projects/status/2xpc16hq56n5v1x5/branch/master?svg=true)](https://ci.appveyor.com/project/phpDocumentor/flyfinder/branch/master)
 [![Code Quality](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/phpDocumentor/FlyFinder/badge.svg?branch=master)](https://coveralls.io/github/phpDocumentor/FlyFinder?branch=master)
 
 
 FlyFinder
