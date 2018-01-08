@@ -9,11 +9,12 @@ env:
 install:
 - composer install --no-interaction --prefer-dist -o
 
+script:
+  - vendor/bin/phpunit
+
 jobs:
   include:
-    - stage: Test
       script:
-        - vendor/bin/phpunit
 
     - stage: Coverage
       php: 7.1
