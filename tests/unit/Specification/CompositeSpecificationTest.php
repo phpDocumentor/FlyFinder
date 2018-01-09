@@ -21,10 +21,10 @@ use PHPUnit\Framework\TestCase;
  */
 class CompositeSpecificationTest extends TestCase
 {
-    /** @var HasExtension */
+    /** @var m\MockInterface|HasExtension */
     private $hasExtension;
 
-    /** @var m::MockObject|CompositeSpecification */
+    /** @var CompositeSpecification */
     private $fixture;
 
     /**
@@ -32,8 +32,8 @@ class CompositeSpecificationTest extends TestCase
      */
     public function setUp()
     {
-        $this->hasExtension = m::mock('Flyfinder\Specification\HasExtension');
-        $this->fixture = $this->getMockForAbstractClass('Flyfinder\Specification\CompositeSpecification');
+        $this->hasExtension = m::mock(HasExtension::class);
+        $this->fixture = $this->getMockForAbstractClass(CompositeSpecification::class);
     }
 
     public function tearDown()
@@ -43,36 +43,36 @@ class CompositeSpecificationTest extends TestCase
 
     /**
      * @covers ::andSpecification
-     * @uses Flyfinder\Specification\AndSpecification
+     * @uses \Flyfinder\Specification\AndSpecification
      */
     public function testAndSpecification()
     {
         $this->assertInstanceOf(
-            'Flyfinder\Specification\AndSpecification',
+            AndSpecification::class,
             $this->fixture->andSpecification($this->hasExtension)
         );
     }
 
     /**
      * @covers ::orSpecification
-     * @uses Flyfinder\Specification\OrSpecification
+     * @uses \Flyfinder\Specification\OrSpecification
      */
     public function testOrSpecification()
     {
         $this->assertInstanceOf(
-            'Flyfinder\Specification\OrSpecification',
+            OrSpecification::class,
             $this->fixture->orSpecification($this->hasExtension)
         );
     }
 
     /**
      * @covers ::notSpecification
-     * @uses Flyfinder\Specification\NotSpecification
+     * @uses \Flyfinder\Specification\NotSpecification
      */
     public function testNotSpecification()
     {
         $this->assertInstanceOf(
-            'Flyfinder\Specification\NotSpecification',
+            NotSpecification::class,
             $this->fixture->notSpecification()
         );
     }

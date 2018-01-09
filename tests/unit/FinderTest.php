@@ -12,6 +12,8 @@
 
 namespace Flyfinder;
 
+use Flyfinder\Specification\IsHidden;
+use League\Flysystem\Filesystem;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 
@@ -52,8 +54,8 @@ class FinderTest extends TestCase
      */
     public function testIfCorrectFilesAreBeingYielded()
     {
-        $isHidden = m::mock('Flyfinder\Specification\IsHidden');
-        $filesystem = m::mock('League\Flysystem\Filesystem');
+        $isHidden = m::mock(IsHidden::class);
+        $filesystem = m::mock(Filesystem::class);
 
         $listContents1 = [
             0 => [

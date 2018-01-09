@@ -17,7 +17,7 @@ namespace Flyfinder\Specification;
 /**
  * Class AndSpecification
  */
-final class AndSpecification extends CompositeSpecification implements SpecificationInterface
+final class AndSpecification extends CompositeSpecification
 {
     /**
      * @var SpecificationInterface

@@ -21,10 +21,10 @@ use PHPUnit\Framework\TestCase;
  */
 class OrSpecificationTest extends TestCase
 {
-    /** @var HasExtension */
+    /** @var m\MockInterface|HasExtension */
     private $hasExtension;
 
-    /** @var IsHidden */
+    /** @var m\MockInterface|IsHidden */
     private $isHidden;
 
     /** @var OrSpecification */
@@ -35,8 +35,8 @@ class OrSpecificationTest extends TestCase
      */
     public function setUp()
     {
-        $this->hasExtension = m::mock('Flyfinder\Specification\HasExtension');
-        $this->isHidden = m::mock('Flyfinder\Specification\IsHidden');
+        $this->hasExtension = m::mock(HasExtension::class);
+        $this->isHidden = m::mock(IsHidden::class);
         $this->fixture = new OrSpecification($this->hasExtension, $this->isHidden);
     }
 
