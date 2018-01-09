@@ -25,10 +25,10 @@ class FindOnSamplePhpdocLayout extends \PHPUnit_Framework_TestCase
     {
         include(__DIR__ . '/../../examples/03-sample-phpdoc-layout.php');
 
-        $this->assertEquals(4, count($result));
-        $this->assertEquals("JmsSerializerServiceProvider.php", $result[0]['basename']);
-        $this->assertEquals("MonologServiceProvider.php", $result[1]['basename']);
-        $this->assertEquals("Application.php", $result[2]['basename']);
-        $this->assertEquals("Bootstrap.php", $result[3]['basename']);
+        $this->assertCount(4, $result);
+        $this->assertSame("JmsSerializerServiceProvider.php", $result[0]['basename']);
+        $this->assertSame("MonologServiceProvider.php", $result[1]['basename']);
+        $this->assertSame("Application.php", $result[2]['basename']);
+        $this->assertSame("Bootstrap.php", $result[3]['basename']);
     }
 }

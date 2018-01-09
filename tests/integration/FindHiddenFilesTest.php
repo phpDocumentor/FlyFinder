@@ -25,7 +25,7 @@ class FindHiddenFilesTest extends \PHPUnit_Framework_TestCase
     {
         include(__DIR__ . '/../../examples/01-find-hidden-files.php');
 
-        $this->assertEquals(1, count($result));
-        $this->assertEquals(".test.txt", $result[0]['basename']);
+        $this->assertCount(1, $result);
+        $this->assertSame(".test.txt", $result[0]['basename']);
     }
 }

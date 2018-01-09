@@ -38,7 +38,7 @@ class FinderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethod()
     {
-        $this->assertEquals('find', $this->fixture->getMethod());
+        $this->assertSame('find', $this->fixture->getMethod());
     }
 
     /**
@@ -117,6 +117,6 @@ class FinderTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 }
