@@ -26,7 +26,7 @@ class FindOnMultipleCriteriaTest extends \PHPUnit_Framework_TestCase
         include(__DIR__ . '/../../examples/02-find-on-multiple-criteria.php');
 
         $this->assertCount(2, $result);
-        $this->assertEquals("found.txt", $result[0]['basename']);
-        $this->assertEquals("example.txt", $result[1]['basename']);
+        $this->assertSame("found.txt", $result[0]['basename']);
+        $this->assertSame("example.txt", $result[1]['basename']);
     }
 }

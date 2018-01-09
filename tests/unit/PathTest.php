@@ -26,6 +26,6 @@ class PathTest extends \PHPUnit_Framework_TestCase
     {
         $path = new Path('/my/Path');
 
-        $this->assertEquals('/my/Path', (string)$path);
+        $this->assertSame('/my/Path', (string)$path);
     }
 }
