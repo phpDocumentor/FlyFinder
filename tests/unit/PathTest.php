@@ -28,6 +28,6 @@ class PathTest extends TestCase
     {
         $path = new Path('/my/Path');
 
-        $this->assertSame('/my/Path', (string)$path);
+        $this->assertSame('/my/Path', (string) $path);
     }
 }

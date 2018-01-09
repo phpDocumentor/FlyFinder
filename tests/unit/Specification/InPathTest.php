@@ -12,9 +12,9 @@
 
 namespace Flyfinder\Specification;
 
-use PHPUnit\Framework\TestCase;
-use Mockery as m;
 use Flyfinder\Path;
+use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for InPath
@@ -47,7 +47,7 @@ class InPathTest extends TestCase
             'dirname' => $absolutePath,
             'filename' => 'file',
             'extension' => 'txt',
-            'basename' => 'file.txt'
+            'basename' => 'file.txt',
         ]));
     }
 
@@ -104,7 +104,7 @@ class InPathTest extends TestCase
             ['.hiddendir/n/'],
             ['.hiddendir/n/somedir'],
             ['.hiddendir/n/somedir.txt'],
-            ['ddenxir/n']
+            ['ddenxir/n'],
         ];
     }
 
@@ -132,7 +132,7 @@ class InPathTest extends TestCase
             ['.hiddendir/normaldir'],
             ['.hiddendir.ext/n'],
             ['.hiddenxxir/n'],
-            ['.hiddenir/n']
+            ['.hiddenir/n'],
         ];
     }
 }

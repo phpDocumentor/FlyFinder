@@ -23,7 +23,7 @@ use Flyfinder\Path;
  * Note this behavior is different than in Finder, in that directories *can* meet the spec,
  * whereas Finder would never return a directory as "found".
  */
-class InPath extends CompositeSpecification implements SpecificationInterface
+class InPath extends CompositeSpecification
 {
     /**
      * @var Path
@@ -32,8 +32,6 @@ class InPath extends CompositeSpecification implements SpecificationInterface
 
     /**
      * Initializes the InPath specification
-     *
-     * @param Path $path
      */
     public function __construct(Path $path)
     {
@@ -44,9 +42,8 @@ class InPath extends CompositeSpecification implements SpecificationInterface
      * Checks if the value meets the specification
      *
      * @param mixed[] $value
-     * @return bool
      */
-    public function isSatisfiedBy(array $value) : bool
+    public function isSatisfiedBy(array $value): bool
     {
         if (in_array($this->path, ['', '.', './'])) {
             /*
@@ -68,8 +65,7 @@ class InPath extends CompositeSpecification implements SpecificationInterface
         if (isset($value['path'])) {
             $pattern = '(^(?!\/)'
                 . str_replace(['?', '*'], [$validChars . '{1}', $validChars . '*'], $path)
-                . $validChars . '*)'
-            ;
+                . $validChars . '*)';
             if (preg_match($pattern, $value['path'])) {
                 return true;
             }
@@ -81,8 +77,7 @@ class InPath extends CompositeSpecification implements SpecificationInterface
         if (isset($value['dirname'])) {
             $pattern = '(^(?!\/)'
                 . str_replace(['?', '*'], [$validChars . '{1}', $validChars . '*'], $path . '/')
-                . $validChars . '*)'
-            ;
+                . $validChars . '*)';
             if (preg_match($pattern, $value['dirname'] . '/')) {
                 return true;
             }

@@ -31,9 +31,6 @@ final class AndSpecification extends CompositeSpecification implements Specifica
 
     /**
      * Initializes the AndSpecification object
-     *
-     * @param SpecificationInterface $one
-     * @param SpecificationInterface $other
      */
     public function __construct(SpecificationInterface $one, SpecificationInterface $other)
     {
@@ -45,9 +42,8 @@ final class AndSpecification extends CompositeSpecification implements Specifica
      * Checks if the value meets the specification
      *
      * @param mixed[] $value
-     * @return bool
      */
-    public function isSatisfiedBy(array $value) : bool
+    public function isSatisfiedBy(array $value): bool
     {
         return $this->one->isSatisfiedBy($value) && $this->other->isSatisfiedBy($value);
     }
