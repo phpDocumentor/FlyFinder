@@ -33,7 +33,7 @@ final class Path
      */
     public function __construct(string $path)
     {
-        $this->path = (string)$path;
+        $this->path = $path;
     }
 
     /**

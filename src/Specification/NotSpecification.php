@@ -20,16 +20,16 @@ namespace Flyfinder\Specification;
 final class NotSpecification extends CompositeSpecification implements SpecificationInterface
 {
     /**
-     * @var CompositeSpecification
+     * @var SpecificationInterface
      */
     private $wrapped;
 
     /**
      * Initializes the NotSpecification object
      *
-     * @param CompositeSpecification $wrapped
+     * @param SpecificationInterface $wrapped
      */
-    public function __construct(CompositeSpecification $wrapped)
+    public function __construct(SpecificationInterface $wrapped)
     {
         $this->wrapped = $wrapped;
     }

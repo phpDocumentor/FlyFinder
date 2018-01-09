@@ -20,22 +20,22 @@ namespace Flyfinder\Specification;
 final class AndSpecification extends CompositeSpecification implements SpecificationInterface
 {
     /**
-     * @var CompositeSpecification
+     * @var SpecificationInterface
      */
     private $one;
 
     /**
-     * @var CompositeSpecification
+     * @var SpecificationInterface
      */
     private $other;
 
     /**
      * Initializes the AndSpecification object
      *
-     * @param CompositeSpecification $one
-     * @param CompositeSpecification $other
+     * @param SpecificationInterface $one
+     * @param SpecificationInterface $other
      */
-    public function __construct(CompositeSpecification $one, CompositeSpecification $other)
+    public function __construct(SpecificationInterface $one, SpecificationInterface $other)
     {
         $this->one = $one;
         $this->other = $other;
