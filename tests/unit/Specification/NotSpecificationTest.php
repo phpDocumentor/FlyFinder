@@ -12,14 +12,14 @@
 
 namespace Flyfinder\Specification;
 
+use PHPUnit\Framework\TestCase;
 use Mockery as m;
-use Flyfinder\Specification\HasExtension;
 
 /**
  * Test case for NotSpecification
  * @coversDefaultClass Flyfinder\Specification\NotSpecification
  */
-class NotSpecificationTest extends \PHPUnit_Framework_TestCase
+class NotSpecificationTest extends TestCase
 {
     /** @var HasExtension */
     private $hasExtension;
@@ -34,6 +34,11 @@ class NotSpecificationTest extends \PHPUnit_Framework_TestCase
     {
         $this->hasExtension = m::mock('Flyfinder\Specification\HasExtension');
         $this->fixture = new NotSpecification($this->hasExtension);
+    }
+
+    public function tearDown()
+    {
+        m::close();
     }
 
     /**

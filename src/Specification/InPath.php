@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -44,7 +46,7 @@ class InPath extends CompositeSpecification implements SpecificationInterface
      * @param mixed[] $value
      * @return bool
      */
-    public function isSatisfiedBy(array $value)
+    public function isSatisfiedBy(array $value) : bool
     {
         if (in_array($this->path, ['', '.', './'])) {
             /*

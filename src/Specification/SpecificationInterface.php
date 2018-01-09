@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -23,5 +25,5 @@ interface SpecificationInterface
      * @param mixed[] $value
      * @return bool
      */
-    public function isSatisfiedBy(array $value);
+    public function isSatisfiedBy(array $value) : bool;
 }

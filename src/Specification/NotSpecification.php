@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -38,7 +40,7 @@ final class NotSpecification extends CompositeSpecification implements Specifica
      * @param mixed[] $value
      * @return bool
      */
-    public function isSatisfiedBy(array $value)
+    public function isSatisfiedBy(array $value) : bool
     {
         return ! $this->wrapped->isSatisfiedBy($value);
     }

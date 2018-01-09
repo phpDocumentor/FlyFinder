@@ -12,15 +12,14 @@
 
 namespace Flyfinder\Specification;
 
+use PHPUnit\Framework\TestCase;
 use Mockery as m;
-use Flyfinder\Specification\HasExtension;
-use Flyfinder\Specification\IsHidden;
 
 /**
  * Test case for OrSpecification
  * @coversDefaultClass Flyfinder\Specification\OrSpecification
  */
-class OrSpecificationTest extends \PHPUnit_Framework_TestCase
+class OrSpecificationTest extends TestCase
 {
     /** @var HasExtension */
     private $hasExtension;
@@ -39,6 +38,11 @@ class OrSpecificationTest extends \PHPUnit_Framework_TestCase
         $this->hasExtension = m::mock('Flyfinder\Specification\HasExtension');
         $this->isHidden = m::mock('Flyfinder\Specification\IsHidden');
         $this->fixture = new OrSpecification($this->hasExtension, $this->isHidden);
+    }
+
+    public function tearDown()
+    {
+        m::close();
     }
 
     /**

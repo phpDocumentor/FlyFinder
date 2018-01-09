@@ -12,19 +12,19 @@
 
 namespace Flyfinder\Specification;
 
+use PHPUnit\Framework\TestCase;
 use Mockery as m;
-use Flyfinder\Specification\HasExtension;
 
 /**
  * Test case for CompositeSpecification
  * @coversDefaultClass Flyfinder\Specification\CompositeSpecification
  */
-class CompositeSpecificationTest extends \PHPUnit_Framework_TestCase
+class CompositeSpecificationTest extends TestCase
 {
     /** @var HasExtension */
     private $hasExtension;
 
-    /** @var CompositeSpecification */
+    /** @var m::MockObject|CompositeSpecification */
     private $fixture;
 
     /**
@@ -34,6 +34,11 @@ class CompositeSpecificationTest extends \PHPUnit_Framework_TestCase
     {
         $this->hasExtension = m::mock('Flyfinder\Specification\HasExtension');
         $this->fixture = $this->getMockForAbstractClass('Flyfinder\Specification\CompositeSpecification');
+    }
+
+    public function tearDown()
+    {
+        m::close();
     }
 
     /**

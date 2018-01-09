@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * phpDocumentor
  *
@@ -29,7 +31,7 @@ final class Path
      *
      * @param string $path
      */
-    public function __construct($path)
+    public function __construct(string $path)
     {
         $this->path = (string)$path;
     }
@@ -39,7 +41,7 @@ final class Path
      *
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->path;
     }

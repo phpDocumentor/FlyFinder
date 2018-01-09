@@ -12,13 +12,14 @@
 
 namespace Flyfinder\Specification;
 
+use PHPUnit\Framework\TestCase;
 use Mockery as m;
 
 /**
  * Test case for IsHidden
  * @coversDefaultClass Flyfinder\Specification\IsHidden
  */
-class IsHiddenTest extends \PHPUnit_Framework_TestCase
+class IsHiddenTest extends TestCase
 {
     /** @var IsHidden */
     private $fixture;
@@ -29,6 +30,11 @@ class IsHiddenTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->fixture = new IsHidden();
+    }
+
+    public function tearDown()
+    {
+        m::close();
     }
 
     /**

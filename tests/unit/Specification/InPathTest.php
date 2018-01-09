@@ -12,6 +12,7 @@
 
 namespace Flyfinder\Specification;
 
+use PHPUnit\Framework\TestCase;
 use Mockery as m;
 use Flyfinder\Path;
 
@@ -20,10 +21,15 @@ use Flyfinder\Path;
  * @coversDefaultClass Flyfinder\Specification\InPath
  * @covers ::<private>
  */
-class InPathTest extends \PHPUnit_Framework_TestCase
+class InPathTest extends TestCase
 {
     /** @var InPath */
     private $fixture;
+
+    public function tearDown()
+    {
+        m::close();
+    }
 
     /**
      * @covers ::__construct
