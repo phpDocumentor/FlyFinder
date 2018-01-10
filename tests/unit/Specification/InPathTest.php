@@ -12,9 +12,9 @@
 
 namespace Flyfinder\Specification;
 
-use PHPUnit\Framework\TestCase;
-use Mockery as m;
 use Flyfinder\Path;
+use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for InPath
@@ -35,7 +35,7 @@ class InPathTest extends TestCase
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      * @dataProvider validDirnames
-     * @uses Flyfinder\Path
+     * @uses \Flyfinder\Path
      */
     public function testExactMatch()
     {
@@ -47,7 +47,7 @@ class InPathTest extends TestCase
             'dirname' => $absolutePath,
             'filename' => 'file',
             'extension' => 'txt',
-            'basename' => 'file.txt'
+            'basename' => 'file.txt',
         ]));
     }
 
@@ -60,9 +60,9 @@ class InPathTest extends TestCase
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      * @dataProvider validDirnames
-     * @uses Flyfinder\Path
+     * @uses \Flyfinder\Path
      */
-    public function testIfSpecificationIsSatisfied($dirname)
+    public function testIfSpecificationIsSatisfied(string $dirname)
     {
         $this->useWildcardPath();
         $this->assertTrue($this->fixture->isSatisfiedBy(['dirname' => $dirname]));
@@ -72,9 +72,9 @@ class InPathTest extends TestCase
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      * @dataProvider validDirnames
-     * @uses Flyfinder\Path
+     * @uses \Flyfinder\Path
      */
-    public function testWithSingleDotSpec($dirname)
+    public function testWithSingleDotSpec(string $dirname)
     {
         $spec = new InPath(new Path('.'));
         $this->assertTrue($spec->isSatisfiedBy(['dirname' => $dirname]));
@@ -84,9 +84,9 @@ class InPathTest extends TestCase
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      * @dataProvider validDirnames
-     * @uses Flyfinder\Path
+     * @uses \Flyfinder\Path
      */
-    public function testWithCurrentDirSpec($dirname)
+    public function testWithCurrentDirSpec(string $dirname)
     {
         $spec = new InPath(new Path('./'));
         $this->assertTrue($spec->isSatisfiedBy(['dirname' => $dirname]));
@@ -104,7 +104,7 @@ class InPathTest extends TestCase
             ['.hiddendir/n/'],
             ['.hiddendir/n/somedir'],
             ['.hiddendir/n/somedir.txt'],
-            ['ddenxir/n']
+            ['ddenxir/n'],
         ];
     }
 
@@ -112,9 +112,9 @@ class InPathTest extends TestCase
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      * @dataProvider invalidDirnames
-     * @uses Flyfinder\Path
+     * @uses \Flyfinder\Path
      */
-    public function testIfSpecificationIsNotSatisfied($dirname)
+    public function testIfSpecificationIsNotSatisfied(string $dirname)
     {
         $this->useWildcardPath();
         $this->assertFalse($this->fixture->isSatisfiedBy(['dirname' => $dirname]));
@@ -122,17 +122,15 @@ class InPathTest extends TestCase
 
     /**
      * Data provider for testIfSpecificationIsNotSatisfied. Contains a few invalid directory names
-     *
-     * @return array
      */
-    public function invalidDirnames()
+    public function invalidDirnames(): array
     {
         return [
             ['/hiddendir/n'],
             ['.hiddendir/normaldir'],
             ['.hiddendir.ext/n'],
             ['.hiddenxxir/n'],
-            ['.hiddenir/n']
+            ['.hiddenir/n'],
         ];
     }
 }

@@ -17,19 +17,17 @@ namespace Flyfinder\Specification;
 /**
  * Class NotSpecification
  */
-final class NotSpecification extends CompositeSpecification implements SpecificationInterface
+final class NotSpecification extends CompositeSpecification
 {
     /**
-     * @var CompositeSpecification
+     * @var SpecificationInterface
      */
     private $wrapped;
 
     /**
      * Initializes the NotSpecification object
-     *
-     * @param CompositeSpecification $wrapped
      */
-    public function __construct(CompositeSpecification $wrapped)
+    public function __construct(SpecificationInterface $wrapped)
     {
         $this->wrapped = $wrapped;
     }
@@ -38,10 +36,9 @@ final class NotSpecification extends CompositeSpecification implements Specifica
      * Checks if the value meets the specification
      *
      * @param mixed[] $value
-     * @return bool
      */
-    public function isSatisfiedBy(array $value) : bool
+    public function isSatisfiedBy(array $value): bool
     {
-        return ! $this->wrapped->isSatisfiedBy($value);
+        return !$this->wrapped->isSatisfiedBy($value);
     }
 }

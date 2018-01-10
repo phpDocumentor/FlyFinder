@@ -18,7 +18,7 @@ namespace Flyfinder\Specification;
  * Class HasExtension
  * Files and directories meet the specification if they have the given extension
  */
-class HasExtension extends CompositeSpecification implements SpecificationInterface
+class HasExtension extends CompositeSpecification
 {
     /**
      * @var string[]
@@ -39,9 +39,8 @@ class HasExtension extends CompositeSpecification implements SpecificationInterf
      * Checks if the value meets the specification
      *
      * @param mixed[] $value
-     * @return bool
      */
-    public function isSatisfiedBy(array $value) : bool
+    public function isSatisfiedBy(array $value): bool
     {
         return isset($value['extension']) && in_array($value['extension'], $this->extensions) ? true : false;
     }

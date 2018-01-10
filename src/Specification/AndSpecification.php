@@ -17,25 +17,22 @@ namespace Flyfinder\Specification;
 /**
  * Class AndSpecification
  */
-final class AndSpecification extends CompositeSpecification implements SpecificationInterface
+final class AndSpecification extends CompositeSpecification
 {
     /**
-     * @var CompositeSpecification
+     * @var SpecificationInterface
      */
     private $one;
 
     /**
-     * @var CompositeSpecification
+     * @var SpecificationInterface
      */
     private $other;
 
     /**
      * Initializes the AndSpecification object
-     *
-     * @param CompositeSpecification $one
-     * @param CompositeSpecification $other
      */
-    public function __construct(CompositeSpecification $one, CompositeSpecification $other)
+    public function __construct(SpecificationInterface $one, SpecificationInterface $other)
     {
         $this->one = $one;
         $this->other = $other;
@@ -45,9 +42,8 @@ final class AndSpecification extends CompositeSpecification implements Specifica
      * Checks if the value meets the specification
      *
      * @param mixed[] $value
-     * @return bool
      */
-    public function isSatisfiedBy(array $value) : bool
+    public function isSatisfiedBy(array $value): bool
     {
         return $this->one->isSatisfiedBy($value) && $this->other->isSatisfiedBy($value);
     }

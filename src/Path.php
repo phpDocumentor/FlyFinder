@@ -28,20 +28,16 @@ final class Path
 
     /**
      * Initializes the path.
-     *
-     * @param string $path
      */
     public function __construct(string $path)
     {
-        $this->path = (string)$path;
+        $this->path = $path;
     }
 
     /**
      * returns a string representation of the path.
-     *
-     * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->path;
     }

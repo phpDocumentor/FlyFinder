@@ -12,8 +12,10 @@
 
 namespace Flyfinder;
 
-use PHPUnit\Framework\TestCase;
+use Flyfinder\Specification\IsHidden;
+use League\Flysystem\Filesystem;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for Finder
@@ -21,7 +23,7 @@ use Mockery as m;
  */
 class FinderTest extends TestCase
 {
-   /** @var Finder */
+    /** @var Finder */
     private $fixture;
 
     /**
@@ -52,32 +54,32 @@ class FinderTest extends TestCase
      */
     public function testIfCorrectFilesAreBeingYielded()
     {
-        $isHidden = m::mock('Flyfinder\Specification\IsHidden');
-        $filesystem = m::mock('League\Flysystem\Filesystem');
+        $isHidden = m::mock(IsHidden::class);
+        $filesystem = m::mock(Filesystem::class);
 
         $listContents1 = [
             0 => [
-                "type" => "dir",
-                "path" => ".hiddendir",
-                "dirname" => "",
-                "basename" => ".hiddendir",
-                "filename" => ".hiddendir",
+                'type' => 'dir',
+                'path' => '.hiddendir',
+                'dirname' => '',
+                'basename' => '.hiddendir',
+                'filename' => '.hiddendir',
             ],
             1 => [
-                "type" => "file",
-                "path" => "test.txt",
-                "basename" => "test.txt"
+                'type' => 'file',
+                'path' => 'test.txt',
+                'basename' => 'test.txt',
             ],
         ];
 
         $listContents2 = [
             0 => [
-                "type" => "file",
-                "path" => ".hiddendir/.test.txt",
-                "dirname" => ".hiddendir",
-                "basename" => ".test.txt",
-                "filename" => ".test",
-                "extension" => "txt",
+                'type' => 'file',
+                'path' => '.hiddendir/.test.txt',
+                'dirname' => '.hiddendir',
+                'basename' => '.test.txt',
+                'filename' => '.test',
+                'extension' => 'txt',
             ],
         ];
 
@@ -112,13 +114,13 @@ class FinderTest extends TestCase
 
         $expected = [
             0 => [
-                "type" => "file",
-                "path" => ".hiddendir/.test.txt",
-                "dirname" => ".hiddendir",
-                "basename" => ".test.txt",
-                "filename" => ".test",
-                "extension" => "txt",
-            ]
+                'type' => 'file',
+                'path' => '.hiddendir/.test.txt',
+                'dirname' => '.hiddendir',
+                'basename' => '.test.txt',
+                'filename' => '.test',
+                'extension' => 'txt',
+            ],
         ];
 
         $this->assertSame($expected, $result);

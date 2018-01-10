@@ -18,16 +18,15 @@ namespace Flyfinder\Specification;
  * Class IsHidden
  * Files or directories meet the specification if they are hidden
  */
-class IsHidden extends CompositeSpecification implements SpecificationInterface
+class IsHidden extends CompositeSpecification
 {
     /**
      * Checks if the value meets the specification
      *
      * @param mixed[] $value
-     * @return bool
      */
-    public function isSatisfiedBy(array $value) : bool
+    public function isSatisfiedBy(array $value): bool
     {
-        return isset($value['basename']) && substr($value['basename'], 0, 1) === '.' ? true : false;
+        return isset($value['basename']) && substr($value['basename'], 0, 1) === '.';
     }
 }

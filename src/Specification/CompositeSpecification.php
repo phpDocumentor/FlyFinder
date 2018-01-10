@@ -18,16 +18,13 @@ namespace Flyfinder\Specification;
  * Class CompositeSpecification
  * Base class for specifications, allows for combining specifications
  */
-abstract class CompositeSpecification
+abstract class CompositeSpecification implements SpecificationInterface
 {
     /**
      * Returns a specification that satisfies the original specification
      * as well as the other specification
-     *
-     * @param CompositeSpecification $other
-     * @return AndSpecification
      */
-    public function andSpecification(CompositeSpecification $other) : AndSpecification
+    public function andSpecification(SpecificationInterface $other): AndSpecification
     {
         return new AndSpecification($this, $other);
     }
@@ -35,11 +32,8 @@ abstract class CompositeSpecification
     /**
      * Returns a specification that satisfies the original specification
      * or the other specification
-     *
-     * @param CompositeSpecification $other
-     * @return OrSpecification
      */
-    public function orSpecification(CompositeSpecification $other) : OrSpecification
+    public function orSpecification(SpecificationInterface $other): OrSpecification
     {
         return new OrSpecification($this, $other);
     }
@@ -47,10 +41,8 @@ abstract class CompositeSpecification
     /**
      * Returns a specification that is the inverse of the original specification
      * i.e. does not meet the original criteria
-     *
-     * @return NotSpecification
      */
-    public function notSpecification() : NotSpecification
+    public function notSpecification(): NotSpecification
     {
         return new NotSpecification($this);
     }

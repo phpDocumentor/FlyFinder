@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Flyfinder;
 
+use Flyfinder\Specification\SpecificationInterface;
 use Generator;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\PluginInterface;
-use Flyfinder\Specification\SpecificationInterface;
 
 /**
  * Flysystem plugin to add file finding capabilities to the filesystem entity.
@@ -31,21 +31,16 @@ class Finder implements PluginInterface
 
     /**
      * Get the method name.
-     *
-     * @return string
      */
-    public function getMethod() : string
+    public function getMethod(): string
     {
         return 'find';
     }
 
     /**
      * Set the Filesystem object.
-     *
-     * @param FilesystemInterface $filesystem
-     * @return void
      */
-    public function setFilesystem(FilesystemInterface $filesystem)
+    public function setFilesystem(FilesystemInterface $filesystem): void
     {
         $this->filesystem = $filesystem;
     }
@@ -55,11 +50,8 @@ class Finder implements PluginInterface
      *
      * Note that only found *files* are yielded at this level,
      * which go back to the caller.
-     *
-     * @param SpecificationInterface $specification
-     * @return Generator
      */
-    public function handle(SpecificationInterface $specification) : Generator
+    public function handle(SpecificationInterface $specification): Generator
     {
         foreach ($this->yieldFilesInPath($specification, '') as $path) {
             if (isset($path['type']) && $path['type'] === 'file') {
@@ -75,19 +67,16 @@ class Finder implements PluginInterface
      * since they have to be recursed into.  Yielded directories
      * will not make their way back to the caller, as they are filtered out
      * by {@link handle()}.
-     *
-     * @param SpecificationInterface $specification
-     * @param string $path
-     * @return Generator
      */
-    private function yieldFilesInPath(SpecificationInterface $specification, string $path) : Generator
+    private function yieldFilesInPath(SpecificationInterface $specification, string $path): Generator
     {
         $listContents = $this->filesystem->listContents($path);
         foreach ($listContents as $location) {
             if ($specification->isSatisfiedBy($location)) {
                 yield $location;
             }
-            if ($location['type'] == 'dir') {
+
+            if ($location['type'] === 'dir') {
                 foreach ($this->yieldFilesInPath($specification, $location['path']) as $returnedLocation) {
                     yield $returnedLocation;
                 }

@@ -12,8 +12,8 @@
 
 namespace Flyfinder\Specification;
 
-use PHPUnit\Framework\TestCase;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for AndSpecification
@@ -21,10 +21,10 @@ use Mockery as m;
  */
 class AndSpecificationTest extends TestCase
 {
-    /** @var HasExtension */
+    /** @var m\MockInterface|HasExtension */
     private $hasExtension;
 
-    /** @var IsHidden */
+    /** @var m\MockInterface|IsHidden */
     private $isHidden;
 
     /** @var AndSpecification */
@@ -35,8 +35,8 @@ class AndSpecificationTest extends TestCase
      */
     public function setUp()
     {
-        $this->hasExtension = m::mock('Flyfinder\Specification\HasExtension');
-        $this->isHidden = m::mock('Flyfinder\Specification\IsHidden');
+        $this->hasExtension = m::mock(HasExtension::class);
+        $this->isHidden = m::mock(IsHidden::class);
         $this->fixture = new AndSpecification($this->hasExtension, $this->isHidden);
     }
 

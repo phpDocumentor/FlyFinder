@@ -12,8 +12,8 @@
 
 namespace Flyfinder\Specification;
 
-use PHPUnit\Framework\TestCase;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for HasExtension
