@@ -1,14 +1,15 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Travis Status](https://travis-ci.org/phpDocumentor/FlyFinder.svg?branch=master)](https://travis-ci.org/phpDocumentor/FlyFinder)
-[![Appveyor Status](https://ci.appveyor.com/api/projects/status/2xpc16hq56n5v1x5/branch/master?svg=true)](https://ci.appveyor.com/project/phpDocumentor/flyfinder/branch/master)
-[![Code Quality](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/phpDocumentor/FlyFinder/badge.svg?branch=master)](https://coveralls.io/github/phpDocumentor/FlyFinder?branch=master)
-[![PHPStan](https://img.shieldss.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
+[![Travis Status](https://img.shields.io/travis/phpDocumentor/FlyFinder.svg?label=Linux)](https://travis-ci.org/phpDocumentor/FlyFinder)
+[![Appveyor Status](https://img.shields.io/appveyor/ci/phpDocumentor/FlyFinder.svg?label=Windows)](https://ci.appveyor.com/project/phpDocumentor/FlyFinder/branch/master)
+[![Coveralls Coverage](https://img.shields.io/coveralls/github/phpDocumentor/FlyFinder.svg)](https://coveralls.io/github/phpDocumentor/FlyFinder?branch=master)
+[![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/phpDocumentor/FlyFinder.svg)](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/?branch=master)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/phpDocumentor/FlyFinder.svg)](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/?branch=master)
+[![Stable Version](https://img.shields.io/packagist/v/phpDocumentor/FlyFinder.svg)](https://packagist.org/packages/phpDocumentor/FlyFinder)
+[![Unstable Version](https://img.shields.io/packagist/vpre/phpDocumentor/FlyFinder.svg)](https://packagist.org/packages/phpDocumentor/FlyFinder)
 
 
 FlyFinder
-================================================================================================================
+=========
 
 FlyFinder is a plugin for [Flysystem](http://flysystem.thephpleague.com/) that will enable you to find files
 based on certain criteria.
