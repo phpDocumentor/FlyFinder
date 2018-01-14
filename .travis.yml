@@ -12,6 +12,7 @@ matrix:
 install:
   - composer install --no-interaction --prefer-dist --optimize-autoloader
   - wget https://phar.io/releases/phive.phar
+  - php phive.phar --no-progress install --trust-gpg-keys 4AA394086372C20A phpunit
 
 script:
   - ./tools/phpunit --no-coverage
