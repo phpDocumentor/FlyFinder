@@ -45,7 +45,7 @@ class InPath extends CompositeSpecification
      */
     public function isSatisfiedBy(array $value): bool
     {
-        if (in_array($this->path, ['', '.', './'])) {
+        if (in_array($this->path, ['', '.', './'], false)) {
             /*
              * since flysystem stuff is always relative to the filesystem object's root,
              * a spec of "current" dir should always be a match anything being considered

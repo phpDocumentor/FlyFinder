@@ -20,9 +20,6 @@ use PHPUnit\Framework\TestCase;
  */
 class FindOnSamplePhpdocLayout extends TestCase
 {
-    /**
-     * @var string[] $result
-     */
     public function testFindingOnSamplePhpdocLayout()
     {
         $result = [];

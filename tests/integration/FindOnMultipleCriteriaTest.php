@@ -20,9 +20,6 @@ use PHPUnit\Framework\TestCase;
  */
 class FindOnMultipleCriteriaTest extends TestCase
 {
-    /**
-     * @var string[] $result
-     */
     public function testFindingFilesOnMultipleCriteria()
     {
         $result = [];
