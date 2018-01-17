@@ -42,6 +42,6 @@ class HasExtension extends CompositeSpecification
      */
     public function isSatisfiedBy(array $value): bool
     {
-        return isset($value['extension']) && in_array($value['extension'], $this->extensions) ? true : false;
+        return isset($value['extension']) && in_array($value['extension'], $this->extensions, false) ? true : false;
     }
 }

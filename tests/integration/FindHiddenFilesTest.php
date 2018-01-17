@@ -20,9 +20,6 @@ use PHPUnit\Framework\TestCase;
  */
 class FindHiddenFilesTest extends TestCase
 {
-    /**
-     * @var string[] $result
-     */
     public function testFindingHiddenFiles()
     {
         $result = [];
