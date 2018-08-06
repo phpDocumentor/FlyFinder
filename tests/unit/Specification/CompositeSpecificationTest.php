@@ -13,8 +13,8 @@
 namespace Flyfinder\Specification;
 
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for CompositeSpecification
