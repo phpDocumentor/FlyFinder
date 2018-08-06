@@ -14,6 +14,7 @@ namespace Flyfinder\Specification;
 
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test case for CompositeSpecification
@@ -24,7 +25,7 @@ class CompositeSpecificationTest extends TestCase
     /** @var m\MockInterface|HasExtension */
     private $hasExtension;
 
-    /** @var CompositeSpecification */
+    /** @var CompositeSpecification|MockObject */
     private $fixture;
 
     /**
