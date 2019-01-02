@@ -1,5 +1,5 @@
 language: php
-php: [ 7.1, 7.2, nightly ]
+php: [ 7.1, 7.2, 7.3, nightly ]
 sudo: false
 
 env:
@@ -33,11 +33,6 @@ jobs:
         - travis_retry php phive.phar --no-progress install --trust-gpg-keys 8E730BA25823D8B5 phpstan
       script:
         - ./tools/phpstan analyse src --level max --configuration phpstan.neon
-
-    - stage: analysis
-      php: 7.1
-      script:
-        - composer create-project symplify/easy-coding-standard temp/ecs ^3 && temp/ecs/bin/ecs check src tests
 
 cache:
   directories:
