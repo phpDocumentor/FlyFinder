@@ -6,7 +6,7 @@ workflow "New workflow" {
 }
 
 action "PHPStan" {
-  uses = "docker://oskarstark/phpstan-ga"
+  uses = "docker://oskarstark/phpstan-ga:with-extensions"
   args = "analyse src --level max --configuration phpstan.neon"
   secrets = ["GITHUB_TOKEN"]
 }
