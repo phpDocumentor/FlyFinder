@@ -142,23 +142,23 @@
         },
         {
             "name": "league/flysystem-memory",
-            "version": "1.0.0",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-memory.git",
-                "reference": "46df9a22e2854ea919ccafb50c3306bdf309fbe8"
+                "reference": "d0e87477c32e29f999b4de05e64c1adcddb51757"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-memory/zipball/46df9a22e2854ea919ccafb50c3306bdf309fbe8",
-                "reference": "46df9a22e2854ea919ccafb50c3306bdf309fbe8",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-memory/zipball/d0e87477c32e29f999b4de05e64c1adcddb51757",
+                "reference": "d0e87477c32e29f999b4de05e64c1adcddb51757",
                 "shasum": ""
             },
             "require": {
                 "league/flysystem": "~1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.1"
+                "phpunit/phpunit": "^5.7.10"
             },
             "type": "library",
             "extra": {
@@ -183,11 +183,13 @@
                 }
             ],
             "description": "An in-memory adapter for Flysystem.",
-            "homepage": "http://github.com/twistor/flysystem-memory-adapter",
+            "homepage": "https://github.com/thephpleague/flysystem-memory",
             "keywords": [
-                "league"
+                "Flysystem",
+                "adapter",
+                "memory"
             ],
-            "time": "2015-06-26T18:25:54+00:00"
+            "time": "2019-05-30T21:34:13+00:00"
         },
         {
             "name": "mockery/mockery",
