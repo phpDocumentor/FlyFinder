@@ -1,12 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -17,6 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for HasExtension
+ *
  * @coversDefaultClass Flyfinder\Specification\HasExtension
  */
 class HasExtensionTest extends TestCase
@@ -27,12 +29,12 @@ class HasExtensionTest extends TestCase
     /**
      * Initializes the fixture for this test.
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->fixture = new HasExtension(['txt']);
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         m::close();
     }
@@ -41,7 +43,7 @@ class HasExtensionTest extends TestCase
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      */
-    public function testIfSpecificationIsSatisfied()
+    public function testIfSpecificationIsSatisfied() : void
     {
         $this->assertTrue($this->fixture->isSatisfiedBy(['extension' => 'txt']));
     }
@@ -50,7 +52,7 @@ class HasExtensionTest extends TestCase
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      */
-    public function testIfSpecificationIsNotSatisfied()
+    public function testIfSpecificationIsNotSatisfied() : void
     {
         $this->assertFalse($this->fixture->isSatisfiedBy(['extension' => 'php']));
     }

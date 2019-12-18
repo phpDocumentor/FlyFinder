@@ -1,12 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -17,6 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for IsHidden
+ *
  * @coversDefaultClass Flyfinder\Specification\IsHidden
  */
 class IsHiddenTest extends TestCase
@@ -27,12 +29,12 @@ class IsHiddenTest extends TestCase
     /**
      * Initializes the fixture for this test.
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->fixture = new IsHidden();
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         m::close();
     }
@@ -40,7 +42,7 @@ class IsHiddenTest extends TestCase
     /**
      * @covers ::isSatisfiedBy
      */
-    public function testIfSpecificationIsSatisfied()
+    public function testIfSpecificationIsSatisfied() : void
     {
         $this->assertTrue($this->fixture->isSatisfiedBy(['basename' => '.test']));
     }
@@ -48,7 +50,7 @@ class IsHiddenTest extends TestCase
     /**
      * @covers ::isSatisfiedBy
      */
-    public function testIfSpecificationIsNotSatisfied()
+    public function testIfSpecificationIsNotSatisfied() : void
     {
         $this->assertFalse($this->fixture->isSatisfiedBy(['basename' => 'test']));
     }

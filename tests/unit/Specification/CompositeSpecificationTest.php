@@ -1,12 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -18,6 +19,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for CompositeSpecification
+ *
  * @coversDefaultClass Flyfinder\Specification\CompositeSpecification
  */
 class CompositeSpecificationTest extends TestCase
@@ -31,22 +33,23 @@ class CompositeSpecificationTest extends TestCase
     /**
      * Initializes the fixture for this test.
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->hasExtension = m::mock(HasExtension::class);
-        $this->fixture = $this->getMockForAbstractClass(CompositeSpecification::class);
+        $this->fixture      = $this->getMockForAbstractClass(CompositeSpecification::class);
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         m::close();
     }
 
     /**
-     * @covers ::andSpecification
      * @uses \Flyfinder\Specification\AndSpecification
+     *
+     * @covers ::andSpecification
      */
-    public function testAndSpecification()
+    public function testAndSpecification() : void
     {
         $this->assertInstanceOf(
             AndSpecification::class,
@@ -55,10 +58,11 @@ class CompositeSpecificationTest extends TestCase
     }
 
     /**
-     * @covers ::orSpecification
      * @uses \Flyfinder\Specification\OrSpecification
+     *
+     * @covers ::orSpecification
      */
-    public function testOrSpecification()
+    public function testOrSpecification() : void
     {
         $this->assertInstanceOf(
             OrSpecification::class,
@@ -67,10 +71,11 @@ class CompositeSpecificationTest extends TestCase
     }
 
     /**
-     * @covers ::notSpecification
      * @uses \Flyfinder\Specification\NotSpecification
+     *
+     * @covers ::notSpecification
      */
-    public function testNotSpecification()
+    public function testNotSpecification() : void
     {
         $this->assertInstanceOf(
             NotSpecification::class,

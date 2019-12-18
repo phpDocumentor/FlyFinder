@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,14 +8,15 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
 namespace Flyfinder\Specification;
 
 use Flyfinder\Path;
+use function in_array;
+use function preg_match;
+use function str_replace;
 
 /**
  * Class InPath
@@ -22,12 +24,12 @@ use Flyfinder\Path;
  * Files *and directories* meet the specification if they are in the given path.
  * Note this behavior is different than in Finder, in that directories *can* meet the spec,
  * whereas Finder would never return a directory as "found".
+ *
+ * @psalm-immutable
  */
 class InPath extends CompositeSpecification
 {
-    /**
-     * @var Path
-     */
+    /** @var Path */
     private $path;
 
     /**
@@ -39,11 +41,9 @@ class InPath extends CompositeSpecification
     }
 
     /**
-     * Checks if the value meets the specification
-     *
-     * @param mixed[] $value
+     * {@inheritDoc}
      */
-    public function isSatisfiedBy(array $value): bool
+    public function isSatisfiedBy(array $value) : bool
     {
         if (in_array($this->path, ['', '.', './'], false)) {
             /*
@@ -53,7 +53,7 @@ class InPath extends CompositeSpecification
             return true;
         }
 
-        $path = (string) $this->path;
+        $path       = (string) $this->path;
         $validChars = '[a-zA-Z0-9\\\/\.\<\>\,\|\:\(\)\&\;\#]';
 
         /*

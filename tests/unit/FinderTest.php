@@ -1,12 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -19,6 +20,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for Finder
+ *
  * @coversDefaultClass Flyfinder\Finder
  */
 class FinderTest extends TestCase
@@ -29,12 +31,12 @@ class FinderTest extends TestCase
     /**
      * Initializes the fixture for this test.
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->fixture = new Finder();
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         m::close();
     }
@@ -42,7 +44,7 @@ class FinderTest extends TestCase
     /**
      * @covers ::getMethod
      */
-    public function testGetMethod()
+    public function testGetMethod() : void
     {
         $this->assertSame('find', $this->fixture->getMethod());
     }
@@ -52,9 +54,9 @@ class FinderTest extends TestCase
      * @covers ::setFilesystem
      * @covers ::<private>
      */
-    public function testIfCorrectFilesAreBeingYielded()
+    public function testIfCorrectFilesAreBeingYielded() : void
     {
-        $isHidden = m::mock(IsHidden::class);
+        $isHidden   = m::mock(IsHidden::class);
         $filesystem = m::mock(Filesystem::class);
 
         $listContents1 = [

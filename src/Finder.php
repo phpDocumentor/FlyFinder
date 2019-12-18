@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,8 +8,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -16,6 +15,7 @@ namespace Flyfinder;
 
 use Flyfinder\Specification\SpecificationInterface;
 use Generator;
+use League\Flysystem\File;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\PluginInterface;
 
@@ -26,13 +26,16 @@ use League\Flysystem\PluginInterface;
  */
 class Finder implements PluginInterface
 {
-    /** @var FilesystemInterface */
+    /**
+     * @var FilesystemInterface
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private $filesystem;
 
     /**
      * Get the method name.
      */
-    public function getMethod(): string
+    public function getMethod() : string
     {
         return 'find';
     }
@@ -40,7 +43,7 @@ class Finder implements PluginInterface
     /**
      * Set the Filesystem object.
      */
-    public function setFilesystem(FilesystemInterface $filesystem): void
+    public function setFilesystem(FilesystemInterface $filesystem) : void
     {
         $this->filesystem = $filesystem;
     }
@@ -50,8 +53,12 @@ class Finder implements PluginInterface
      *
      * Note that only found *files* are yielded at this level,
      * which go back to the caller.
+     *
+     * @see File
+     *
+     * @return Generator<mixed>
      */
-    public function handle(SpecificationInterface $specification): Generator
+    public function handle(SpecificationInterface $specification) : Generator
     {
         foreach ($this->yieldFilesInPath($specification, '') as $path) {
             if (isset($path['type']) && $path['type'] === 'file') {
@@ -67,19 +74,26 @@ class Finder implements PluginInterface
      * since they have to be recursed into.  Yielded directories
      * will not make their way back to the caller, as they are filtered out
      * by {@link handle()}.
+     *
+     * @return Generator<mixed>
+     *
+     * @psalm-return Generator<array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string}>
      */
-    private function yieldFilesInPath(SpecificationInterface $specification, string $path): Generator
+    private function yieldFilesInPath(SpecificationInterface $specification, string $path) : Generator
     {
         $listContents = $this->filesystem->listContents($path);
+        /** @psalm-var array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $location */
         foreach ($listContents as $location) {
             if ($specification->isSatisfiedBy($location)) {
                 yield $location;
             }
 
-            if ($location['type'] === 'dir') {
-                foreach ($this->yieldFilesInPath($specification, $location['path']) as $returnedLocation) {
-                    yield $returnedLocation;
-                }
+            if ($location['type'] !== 'dir') {
+                continue;
+            }
+
+            foreach ($this->yieldFilesInPath($specification, $location['path']) as $returnedLocation) {
+                yield $returnedLocation;
             }
         }
     }

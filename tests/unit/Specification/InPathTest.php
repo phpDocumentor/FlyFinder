@@ -1,12 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -18,7 +19,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for InPath
- * @coversDefaultClass Flyfinder\Specification\InPath
+ *
+ * @coversDefaultClass \Flyfinder\Specification\InPath
  * @covers ::<private>
  */
 class InPathTest extends TestCase
@@ -26,21 +28,22 @@ class InPathTest extends TestCase
     /** @var InPath */
     private $fixture;
 
-    public function tearDown()
+    public function tearDown() : void
     {
         m::close();
     }
 
     /**
+     * @uses \Flyfinder\Path
+     *
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      * @dataProvider validDirnames
-     * @uses \Flyfinder\Path
      */
-    public function testExactMatch()
+    public function testExactMatch() : void
     {
         $absolutePath = 'absolute/path/to/file.txt';
-        $spec = new InPath(new Path($absolutePath));
+        $spec         = new InPath(new Path($absolutePath));
         $this->assertTrue($spec->isSatisfiedBy([
             'type' => 'file',
             'path' => $absolutePath,
@@ -51,42 +54,45 @@ class InPathTest extends TestCase
         ]));
     }
 
-    private function useWildcardPath()
+    private function useWildcardPath() : void
     {
         $this->fixture = new InPath(new Path('*dden?ir/n'));
     }
 
     /**
+     * @uses \Flyfinder\Path
+     *
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      * @dataProvider validDirnames
-     * @uses \Flyfinder\Path
      */
-    public function testIfSpecificationIsSatisfied(string $dirname)
+    public function testIfSpecificationIsSatisfied(string $dirname) : void
     {
         $this->useWildcardPath();
         $this->assertTrue($this->fixture->isSatisfiedBy(['dirname' => $dirname]));
     }
 
     /**
+     * @uses \Flyfinder\Path
+     *
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      * @dataProvider validDirnames
-     * @uses \Flyfinder\Path
      */
-    public function testWithSingleDotSpec(string $dirname)
+    public function testWithSingleDotSpec(string $dirname) : void
     {
         $spec = new InPath(new Path('.'));
         $this->assertTrue($spec->isSatisfiedBy(['dirname' => $dirname]));
     }
 
     /**
+     * @uses \Flyfinder\Path
+     *
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      * @dataProvider validDirnames
-     * @uses \Flyfinder\Path
      */
-    public function testWithCurrentDirSpec(string $dirname)
+    public function testWithCurrentDirSpec(string $dirname) : void
     {
         $spec = new InPath(new Path('./'));
         $this->assertTrue($spec->isSatisfiedBy(['dirname' => $dirname]));
@@ -95,9 +101,9 @@ class InPathTest extends TestCase
     /**
      * Data provider for testIfSpecificationIsSatisfied. Contains a few valid directory names
      *
-     * @return array
+     * @return string[][]
      */
-    public function validDirnames()
+    public function validDirnames() : array
     {
         return [
             ['.hiddendir/n'],
@@ -109,12 +115,13 @@ class InPathTest extends TestCase
     }
 
     /**
+     * @uses \Flyfinder\Path
+     *
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      * @dataProvider invalidDirnames
-     * @uses \Flyfinder\Path
      */
-    public function testIfSpecificationIsNotSatisfied(string $dirname)
+    public function testIfSpecificationIsNotSatisfied(string $dirname) : void
     {
         $this->useWildcardPath();
         $this->assertFalse($this->fixture->isSatisfiedBy(['dirname' => $dirname]));
@@ -122,8 +129,10 @@ class InPathTest extends TestCase
 
     /**
      * Data provider for testIfSpecificationIsNotSatisfied. Contains a few invalid directory names
+     *
+     * @return string[][]
      */
-    public function invalidDirnames(): array
+    public function invalidDirnames() : array
     {
         return [
             ['/hiddendir/n'],
