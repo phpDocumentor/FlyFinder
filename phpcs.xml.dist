@@ -17,6 +17,7 @@
     <rule ref="Generic.Files.LineLength.TooLong">
         <exclude-pattern>*/src/Finder.php</exclude-pattern>
         <exclude-pattern>*/src/Specification/SpecificationInterface.php</exclude-pattern>
+        <exclude-pattern>*/tests/unit/Specification/GlobTest.php</exclude-pattern>
     </rule>
 
 

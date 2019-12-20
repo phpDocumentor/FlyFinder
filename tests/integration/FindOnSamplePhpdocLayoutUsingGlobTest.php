@@ -16,16 +16,16 @@ namespace Flyfinder;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Integration test against examples/03-sample-phpdoc-layout.php
+ * Integration test against examples/04-sample-phpdoc-layout-using-glob.php
  *
  * @coversNothing
  */
-class FindOnSamplePhpdocLayout extends TestCase
+class FindOnSamplePhpdocLayoutUsingGlobTest extends TestCase
 {
     public function testFindingOnSamplePhpdocLayout() : void
     {
         $result = [];
-        include __DIR__ . '/../../examples/03-sample-phpdoc-layout.php';
+        include __DIR__ . '/../../examples/04-sample-phpdoc-layout-using-glob.php';
 
         $this->assertCount(4, $result);
         $this->assertSame('JmsSerializerServiceProvider.php', $result[0]['basename']);
