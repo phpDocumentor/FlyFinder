@@ -42,4 +42,18 @@ final class OrSpecification extends CompositeSpecification
     {
         return $this->one->isSatisfiedBy($value) || $this->other->isSatisfiedBy($value);
     }
+
+    /** @inheritDoc */
+    public function canBeSatisfiedBySomethingBelow(array $value) : bool
+    {
+        return self::thatCanBeSatisfiedBySomethingBelow($this->one, $value)
+            || self::thatCanBeSatisfiedBySomethingBelow($this->other, $value);
+    }
+
+    /** @inheritDoc */
+    public function willBeSatisfiedByEverythingBelow(array $value) : bool
+    {
+        return self::thatWillBeSatisfiedByEverythingBelow($this->one, $value)
+            || self::thatWillBeSatisfiedByEverythingBelow($this->other, $value);
+    }
 }

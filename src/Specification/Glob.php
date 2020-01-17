@@ -17,10 +17,18 @@ declare(strict_types=1);
 namespace Flyfinder\Specification;
 
 use InvalidArgumentException;
+use function array_slice;
+use function count;
+use function explode;
+use function implode;
+use function max;
+use function min;
 use function preg_match;
+use function rtrim;
 use function sprintf;
 use function strlen;
 use function strpos;
+use function substr;
 
 /**
  * Glob specification class
@@ -40,10 +48,29 @@ final class Glob extends CompositeSpecification
      */
     private $staticPrefix;
 
+    /**
+     * The "bounded prefix" is the part of the glob up to the first recursive wildcard "**".
+     * It is the longest prefix for which the number of directory segments in the partial match
+     * is known. If the glob does not contain the recursive wildcard "**", the full glob is returned.
+     *
+     * @var string
+     */
+    private $boundedPrefix;
+
+    /**
+     * The "total prefix" is the part of the glob before the trailing catch-all wildcard sequence if the glob
+     * ends with one, otherwise null. It is needed for implementing the A-quantifier pruning hint.
+     *
+     * @var string|null
+     */
+    private $totalPrefix;
+
     public function __construct(string $glob)
     {
-        $this->regex        = self::toRegEx($glob);
-        $this->staticPrefix = self::getStaticPrefix($glob);
+        $this->regex         = self::toRegEx($glob);
+        $this->staticPrefix  = self::getStaticPrefix($glob);
+        $this->boundedPrefix = self::getBoundedPrefix($glob);
+        $this->totalPrefix   = self::getTotalPrefix($glob);
     }
 
     /**
@@ -80,12 +107,7 @@ final class Glob extends CompositeSpecification
      */
     private static function getStaticPrefix(string $glob) : string
     {
-        if (strpos($glob, '/') !== 0 && strpos($glob, '://') === false) {
-            throw new InvalidArgumentException(sprintf(
-                'The glob "%s" is not absolute and not a URI.',
-                $glob
-            ));
-        }
+        self::assertValidGlob($glob);
         $prefix = '';
         $length = strlen($glob);
         for ($i = 0; $i < $length; ++$i) {
@@ -103,26 +125,9 @@ final class Glob extends CompositeSpecification
                 case '[':
                     break 2;
                 case '\\':
-                    if (isset($glob[$i + 1])) {
-                        switch ($glob[$i + 1]) {
-                            case '*':
-                            case '?':
-                            case '{':
-                            case '}':
-                            case '[':
-                            case ']':
-                            case '-':
-                            case '^':
-                            case '$':
-                            case '~':
-                            case '\\':
-                                $prefix .= $glob[$i + 1];
-                                ++$i;
-                                break;
-                            default:
-                                $prefix .= '\\';
-                        }
-                    }
+                    [$unescaped, $consumedChars] = self::scanBackslashSequence($glob, $i);
+                    $prefix                     .= $unescaped;
+                    $i                          += $consumedChars;
                     break;
                 default:
                     $prefix .= $c;
@@ -130,6 +135,89 @@ final class Glob extends CompositeSpecification
             }
         }
         return $prefix;
+    }
+
+    private static function getBoundedPrefix(string $glob) : string
+    {
+        self::assertValidGlob($glob);
+        $prefix = '';
+        $length = strlen($glob);
+
+        for ($i = 0; $i < $length; ++$i) {
+            $c = $glob[$i];
+            switch ($c) {
+                case '/':
+                    $prefix .= '/';
+                    if (self::isRecursiveWildcard($glob, $i)) {
+                        break 2;
+                    }
+                    break;
+                case '\\':
+                    [$unescaped, $consumedChars] = self::scanBackslashSequence($glob, $i);
+                    $prefix                     .= $unescaped;
+                    $i                          += $consumedChars;
+                    break;
+                default:
+                    $prefix .= $c;
+                    break;
+            }
+        }
+        return $prefix;
+    }
+
+    private static function getTotalPrefix(string $glob) : ?string
+    {
+        self::assertValidGlob($glob);
+        $matches = [];
+        return preg_match('~(?<!\\\\)/\\*\\*(?:/\\*\\*?)+$~', $glob, $matches)
+            ? substr($glob, 0, strlen($glob)-strlen($matches[0]))
+            : null;
+    }
+
+    /**
+     * @return mixed[]
+     *
+     * @psalm-return array{0: string, 1:int}
+     * @psalm-pure
+     */
+    private static function scanBackslashSequence(string $glob, int $offset) : array
+    {
+        $startOffset = $offset;
+        $result      = '';
+        switch ($c = $glob[$offset + 1] ?? '') {
+            case '*':
+            case '?':
+            case '{':
+            case '}':
+            case '[':
+            case ']':
+            case '-':
+            case '^':
+            case '$':
+            case '~':
+            case '\\':
+                $result .= $c;
+                ++$offset;
+                break;
+            default:
+                $result .= '\\';
+        }
+        return [$result, $offset - $startOffset];
+    }
+
+    /**
+     * Asserts that glob is well formed
+     *
+     * @psalm-pure
+     */
+    private static function assertValidGlob(string $glob) : void
+    {
+        if (strpos($glob, '/') !== 0 && strpos($glob, '://') === false) {
+            throw new InvalidArgumentException(sprintf(
+                'The glob "%s" is not absolute and not a URI.',
+                $glob
+            ));
+        }
     }
 
     /**
@@ -257,5 +345,31 @@ final class Glob extends CompositeSpecification
             ));
         }
         return $delimiter . '^' . $regex . '$' . $delimiter;
+    }
+
+    /** @inheritDoc */
+    public function canBeSatisfiedBySomethingBelow(array $value) : bool
+    {
+        $valueSegments             = explode('/', '/' . $value['path']);
+        $boundedPrefixSegments     = explode('/', rtrim($this->boundedPrefix, '/'));
+        $howManySegmentsToConsider = min(count($valueSegments), count($boundedPrefixSegments));
+        $boundedPrefixGlob         = implode('/', array_slice($boundedPrefixSegments, 0, $howManySegmentsToConsider));
+        $valuePathPrefix           = implode('/', array_slice($valueSegments, 1, max($howManySegmentsToConsider-1, 0)));
+        $prefixValue               = $value;
+        $prefixValue['path']       = $valuePathPrefix;
+        $spec                      = new Glob($boundedPrefixGlob);
+        return $spec->isSatisfiedBy($prefixValue);
+    }
+
+    /** @inheritDoc */
+    public function willBeSatisfiedByEverythingBelow(array $value) : bool
+    {
+        if ($this->totalPrefix === null) {
+            return false;
+        }
+        $spec                    = new Glob(rtrim($this->totalPrefix, '/') . '/**/*');
+        $terminatedValue         = $value;
+        $terminatedValue['path'] = rtrim($terminatedValue['path'], '/') . '/x/x';
+        return $spec->isSatisfiedBy($terminatedValue);
     }
 }

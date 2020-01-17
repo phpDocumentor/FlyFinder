@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Flyfinder;
 
+use Flyfinder\Specification\CompositeSpecification;
 use Flyfinder\Specification\SpecificationInterface;
 use Generator;
 use League\Flysystem\File;
@@ -88,13 +89,13 @@ class Finder implements PluginInterface
                 yield $location;
             }
 
-            if ($location['type'] !== 'dir') {
+            if ($location['type'] !== 'dir'
+                || !CompositeSpecification::thatCanBeSatisfiedBySomethingBelow($specification, $location)
+            ) {
                 continue;
             }
 
-            foreach ($this->yieldFilesInPath($specification, $location['path']) as $returnedLocation) {
-                yield $returnedLocation;
-            }
+            yield from $this->yieldFilesInPath($specification, $location['path']);
         }
     }
 }

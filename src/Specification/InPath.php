@@ -14,7 +14,12 @@ declare(strict_types=1);
 namespace Flyfinder\Specification;
 
 use Flyfinder\Path;
+use function array_slice;
+use function count;
+use function explode;
+use function implode;
 use function in_array;
+use function min;
 use function preg_match;
 use function str_replace;
 
@@ -84,5 +89,21 @@ class InPath extends CompositeSpecification
         }
 
         return false;
+    }
+
+    /** @inheritDoc */
+    public function canBeSatisfiedBySomethingBelow(array $value) : bool
+    {
+        $pathSegments       = explode('/', (string) $this->path);
+        $valueSegments      = explode('/', $value['path']);
+        $pathPrefixSegments = array_slice($pathSegments, 0, min(count($pathSegments), count($valueSegments)));
+        $spec               = new InPath(new Path(implode('/', $pathPrefixSegments)));
+        return $spec->isSatisfiedBy($value);
+    }
+
+    /** @inheritDoc */
+    public function willBeSatisfiedByEverythingBelow(array $value) : bool
+    {
+        return $this->isSatisfiedBy($value);
     }
 }

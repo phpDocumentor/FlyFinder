@@ -19,7 +19,7 @@ namespace Flyfinder\Specification;
  *
  * @psalm-immutable
  */
-abstract class CompositeSpecification implements SpecificationInterface
+abstract class CompositeSpecification implements SpecificationInterface, PrunableInterface
 {
     /**
      * Returns a specification that satisfies the original specification
@@ -46,5 +46,48 @@ abstract class CompositeSpecification implements SpecificationInterface
     public function notSpecification() : NotSpecification
     {
         return new NotSpecification($this);
+    }
+
+    /** {@inheritDoc} */
+    public function canBeSatisfiedBySomethingBelow(array $value) : bool
+    {
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    public function willBeSatisfiedByEverythingBelow(array $value) : bool
+    {
+        return false;
+    }
+
+    /**
+     * Provide default {@see canBeSatisfiedBySomethingBelow()} logic for specification classes
+     * that don't implement PrunableInterface
+     *
+     * @param mixed[] $value
+     *
+     * @psalm-param array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $value
+     * @psalm-mutation-free
+     */
+    public static function thatCanBeSatisfiedBySomethingBelow(SpecificationInterface $that, array $value) : bool
+    {
+        return $that instanceof PrunableInterface
+                ? $that->canBeSatisfiedBySomethingBelow($value)
+                : true;
+    }
+
+    /**
+     * Provide default {@see willBeSatisfiedByEverythingBelow()} logic for specification classes
+     * that don't implement PrunableInterface
+     *
+     * @param mixed[] $value
+     *
+     * @psalm-param array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $value
+     * @psalm-mutation-free
+     */
+    public static function thatWillBeSatisfiedByEverythingBelow(SpecificationInterface $that, array $value) : bool
+    {
+        return $that instanceof PrunableInterface
+            && $that->willBeSatisfiedByEverythingBelow($value);
     }
 }
