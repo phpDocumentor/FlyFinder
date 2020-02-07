@@ -16,6 +16,7 @@ namespace Flyfinder\Specification;
 use Flyfinder\Path;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
+use function dirname;
 
 /**
  * Test case for InPath
@@ -141,5 +142,26 @@ class InPathTest extends TestCase
             ['.hiddenxxir/n'],
             ['.hiddenir/n'],
         ];
+    }
+
+    /**
+     * @uses \Flyfinder\Path
+     *
+     * @covers ::__construct
+     * @covers ::isSatisfiedBy
+     */
+    public function testNoFalsePositiveWithLongerDirName() : void
+    {
+        $prefixDir    = 'absolute/path';
+        $absolutePath = 'absolute/pathMOAR/to/file.txt';
+        $spec         = new InPath(new Path($prefixDir));
+        $this->assertFalse($spec->isSatisfiedBy([
+            'type' => 'file',
+            'path' => $absolutePath,
+            'dirname' => dirname($absolutePath),
+            'filename' => 'file',
+            'extension' => 'txt',
+            'basename' => 'file.txt',
+        ]));
     }
 }

@@ -70,7 +70,7 @@ class InPath extends CompositeSpecification
         if (isset($value['path'])) {
             $pattern = '(^(?!\/)'
                 . str_replace(['?', '*'], [$validChars . '{1}', $validChars . '*'], $path)
-                . $validChars . '*)';
+                . '(?:/' . $validChars . '*)?$)';
             if (preg_match($pattern, $value['path'])) {
                 return true;
             }
