@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Flyfinder\Specification;
 
 /**
- * Class CompositeSpecification
  * Base class for specifications, allows for combining specifications
  *
  * @psalm-immutable

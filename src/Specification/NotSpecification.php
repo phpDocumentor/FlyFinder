@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Flyfinder\Specification;
 
 /**
- * Class NotSpecification
- *
  * @psalm-immutable
  */
 final class NotSpecification extends CompositeSpecification

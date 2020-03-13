@@ -24,8 +24,6 @@ use function preg_match;
 use function str_replace;
 
 /**
- * Class InPath
- *
  * Files *and directories* meet the specification if they are in the given path.
  * Note this behavior is different than in Finder, in that directories *can* meet the spec,
  * whereas Finder would never return a directory as "found".
@@ -98,6 +96,7 @@ class InPath extends CompositeSpecification
         $valueSegments      = explode('/', $value['path']);
         $pathPrefixSegments = array_slice($pathSegments, 0, min(count($pathSegments), count($valueSegments)));
         $spec               = new InPath(new Path(implode('/', $pathPrefixSegments)));
+
         return $spec->isSatisfiedBy($value);
     }
 

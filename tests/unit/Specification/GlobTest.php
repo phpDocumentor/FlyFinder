@@ -123,6 +123,7 @@ final class GlobTest extends TestCase
 
         foreach ($escapeChars as $char) {
             $file = sprintf('/src/test\\%s.php', $char);
+
             yield $file => [
                 $file,
                 ['path' => sprintf('src/test%s.php', $char)],

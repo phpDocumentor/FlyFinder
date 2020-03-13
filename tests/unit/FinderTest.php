@@ -165,7 +165,6 @@ class FinderTest extends TestCase
         );
     }
 
-
     /**
      * @covers ::handle
      * @covers ::setFilesystem
@@ -349,6 +348,7 @@ class FinderTest extends TestCase
             return $v['path'];
         }, iterator_to_array($generator)));
         sort($actual);
+
         return $actual;
     }
 
@@ -396,17 +396,21 @@ class FinderTest extends TestCase
                             'contents' => [],
                         ];
                     }
+
                     if ($child!==null) {
                         $result[$path]['contents'][] = $child;
                     }
+
                     if ($existed) {
                         break;
                     }
                 }
+
                 $child = $info['basename'];
                 $path  = $info['dirname'];
             }
         }
+
         return $result;
     }
 
@@ -421,6 +425,7 @@ class FinderTest extends TestCase
         if (substr($path . '  ', 0, 2)==='./') {
             $path = substr($path, 2);
         }
+
         if ($path==='') {
             $path = '.';
         }
@@ -428,6 +433,7 @@ class FinderTest extends TestCase
         if (!isset($fileTreeMock[$path]) || $fileTreeMock[$path]['type'] === 'file') {
             return [];
         }
+
         $result = [];
         foreach ($fileTreeMock[$path]['contents'] as $basename) {
             $childPath = ($path==='.' ? '' : $path . '/') . $basename;
@@ -437,6 +443,7 @@ class FinderTest extends TestCase
 
             $result[$basename] = $fileTreeMock[$childPath];
         }
+
         return $result;
     }
 
@@ -452,8 +459,10 @@ class FinderTest extends TestCase
             ->zeroOrMoreTimes()
             ->andReturnUsing(function (string $path) use ($fsData, $pathsThatShouldNotBeListed) : array {
                 $this->assertNotContains($path, $pathsThatShouldNotBeListed);
+
                 return array_values($this->mockListContents($fsData, $path));
             });
+
         return $filesystem;
     }
 }

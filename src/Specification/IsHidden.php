@@ -16,7 +16,6 @@ namespace Flyfinder\Specification;
 use function substr;
 
 /**
- * Class IsHidden
  * Files or directories meet the specification if they are hidden
  *
  * @psalm-immutable

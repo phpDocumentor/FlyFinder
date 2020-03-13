@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Flyfinder\Specification;
 
 /**
- * Class OrSpecification
- *
  * @psalm-immutable
  */
 final class OrSpecification extends CompositeSpecification

@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Flyfinder\Specification;
 
 /**
- * Class AndSpecification
- *
  * @psalm-immutable
  */
 final class AndSpecification extends CompositeSpecification

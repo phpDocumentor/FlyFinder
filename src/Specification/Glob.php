@@ -84,11 +84,7 @@ final class Glob extends CompositeSpecification
             return false;
         }
 
-        if (preg_match($this->regex, $path)) {
-            return true;
-        }
-
-        return false;
+        return preg_match($this->regex, $path) === 1;
     }
 
     /**
@@ -118,6 +114,7 @@ final class Glob extends CompositeSpecification
                     if (self::isRecursiveWildcard($glob, $i)) {
                         break 2;
                     }
+
                     break;
                 case '*':
                 case '?':
@@ -134,6 +131,7 @@ final class Glob extends CompositeSpecification
                     break;
             }
         }
+
         return $prefix;
     }
 
@@ -151,6 +149,7 @@ final class Glob extends CompositeSpecification
                     if (self::isRecursiveWildcard($glob, $i)) {
                         break 2;
                     }
+
                     break;
                 case '\\':
                     [$unescaped, $consumedChars] = self::scanBackslashSequence($glob, $i);
@@ -162,6 +161,7 @@ final class Glob extends CompositeSpecification
                     break;
             }
         }
+
         return $prefix;
     }
 
@@ -169,6 +169,7 @@ final class Glob extends CompositeSpecification
     {
         self::assertValidGlob($glob);
         $matches = [];
+
         return preg_match('~(?<!\\\\)/\\*\\*(?:/\\*\\*?)+$~', $glob, $matches)
             ? substr($glob, 0, strlen($glob)-strlen($matches[0]))
             : null;
@@ -202,6 +203,7 @@ final class Glob extends CompositeSpecification
             default:
                 $result .= '\\';
         }
+
         return [$result, $offset - $startOffset];
     }
 
@@ -268,6 +270,7 @@ final class Glob extends CompositeSpecification
                     } else {
                         $regex .= '/';
                     }
+
                     break;
                 case '*':
                     $regex .= '[^/]*';
@@ -286,6 +289,7 @@ final class Glob extends CompositeSpecification
                     } else {
                         $regex .= '}';
                     }
+
                     break;
                 case ',':
                     $regex .= $curlyLevels > 0 ? '|' : ',';
@@ -297,6 +301,7 @@ final class Glob extends CompositeSpecification
                         $regex .= '^';
                         ++$i;
                     }
+
                     break;
                 case ']':
                     $regex   .= $inSquare ? ']' : '\\]';
@@ -326,24 +331,28 @@ final class Glob extends CompositeSpecification
                                 $regex .= '\\\\';
                         }
                     }
+
                     break;
                 default:
                     $regex .= $c;
                     break;
             }
         }
+
         if ($inSquare) {
             throw new InvalidArgumentException(sprintf(
                 'Invalid glob: missing ] in %s',
                 $glob
             ));
         }
+
         if ($curlyLevels > 0) {
             throw new InvalidArgumentException(sprintf(
                 'Invalid glob: missing } in %s',
                 $glob
             ));
         }
+
         return $delimiter . '^' . $regex . '$' . $delimiter;
     }
 
@@ -358,6 +367,7 @@ final class Glob extends CompositeSpecification
         $prefixValue               = $value;
         $prefixValue['path']       = $valuePathPrefix;
         $spec                      = new Glob($boundedPrefixGlob);
+
         return $spec->isSatisfiedBy($prefixValue);
     }
 
@@ -367,9 +377,11 @@ final class Glob extends CompositeSpecification
         if ($this->totalPrefix === null) {
             return false;
         }
+
         $spec                    = new Glob(rtrim($this->totalPrefix, '/') . '/**/*');
         $terminatedValue         = $value;
         $terminatedValue['path'] = rtrim($terminatedValue['path'], '/') . '/x/x';
+
         return $spec->isSatisfiedBy($terminatedValue);
     }
 }
