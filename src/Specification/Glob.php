@@ -372,6 +372,7 @@ final class Glob extends CompositeSpecification
         }
 
         $spec = new Glob($boundedPrefixGlob);
+
         return $spec->isSatisfiedBy($prefixValue);
     }
 
