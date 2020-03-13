@@ -366,8 +366,12 @@ final class Glob extends CompositeSpecification
         $valuePathPrefix           = implode('/', array_slice($valueSegments, 1, max($howManySegmentsToConsider-1, 0)));
         $prefixValue               = $value;
         $prefixValue['path']       = $valuePathPrefix;
-        $spec                      = new Glob($boundedPrefixGlob);
 
+        if ($boundedPrefixGlob === '') {
+            $boundedPrefixGlob = '/';
+        }
+
+        $spec = new Glob($boundedPrefixGlob);
         return $spec->isSatisfiedBy($prefixValue);
     }
 

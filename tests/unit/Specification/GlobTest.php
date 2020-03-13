@@ -61,6 +61,15 @@ final class GlobTest extends TestCase
         new Glob($pattern);
     }
 
+    /**
+     * @covers ::canBeSatisfiedBySomethingBelow
+     */
+    public function testCanBeSatisfiedBySomethingBelow() : void
+    {
+        $glob = new Glob('/**/*');
+        $this->assertTrue($glob->canBeSatisfiedBySomethingBelow(['path' => 'src']));
+    }
+
     public function invalidPatternProvider() : Generator
     {
         $invalidPatterns = [
