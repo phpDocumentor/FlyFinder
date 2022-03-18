@@ -22,6 +22,7 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
+
 use function array_map;
 use function array_values;
 use function iterator_to_array;
@@ -43,12 +44,12 @@ class FinderTest extends TestCase
     /**
      * Initializes the fixture for this test.
      */
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->fixture = new Finder();
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         m::close();
     }
@@ -56,14 +57,14 @@ class FinderTest extends TestCase
     /**
      * @covers ::getMethod
      */
-    public function testGetMethod() : void
+    public function testGetMethod(): void
     {
         $this->assertSame('find', $this->fixture->getMethod());
     }
 
-    public function testIfNotHiddenLetsSubpathsThrough() : void
+    public function testIfNotHiddenLetsSubpathsThrough(): void
     {
-        $files = [ 'foo/bar/.hidden/baz/not-hidden.txt' ];
+        $files = ['foo/bar/.hidden/baz/not-hidden.txt'];
         $this->fixture->setFilesystem($this->mockFileSystem($files));
         $notHidden = (new IsHidden())->notSpecification();
         $this->assertEquals(
@@ -72,9 +73,9 @@ class FinderTest extends TestCase
         );
     }
 
-    public function testIfDoubleNotHiddenLetsSubpathsThrough() : void
+    public function testIfDoubleNotHiddenLetsSubpathsThrough(): void
     {
-        $files = [ '.foo/.bar/not-hidden/.baz/.hidden.txt' ];
+        $files = ['.foo/.bar/not-hidden/.baz/.hidden.txt'];
         $this->fixture->setFilesystem($this->mockFileSystem($files));
         $notHidden = (new IsHidden())->notSpecification()->notSpecification();
         $this->assertEquals(
@@ -83,9 +84,9 @@ class FinderTest extends TestCase
         );
     }
 
-    public function testIfNeitherHiddenNorExtLetsSubpathsThrough() : void
+    public function testIfNeitherHiddenNorExtLetsSubpathsThrough(): void
     {
-        $files = [ 'foo/bar/.hidden/baz.ext/neither-hidden-nor.ext.zzz' ];
+        $files = ['foo/bar/.hidden/baz.ext/neither-hidden-nor.ext.zzz'];
         $this->fixture->setFilesystem($this->mockFileSystem($files));
 
         $neitherHiddenNorExt =
@@ -103,7 +104,7 @@ class FinderTest extends TestCase
         );
     }
 
-    public function testIfNegatedOrCullsExactMatches() : void
+    public function testIfNegatedOrCullsExactMatches(): void
     {
         $files = [
             'foo/bar/baz/whatever.txt',
@@ -132,7 +133,7 @@ class FinderTest extends TestCase
         );
     }
 
-    public function testIfNegatedAndCullsExactMatches() : void
+    public function testIfNegatedAndCullsExactMatches(): void
     {
         $files    = [
             'foo/bar/baz/whatever.txt',
@@ -170,7 +171,7 @@ class FinderTest extends TestCase
      * @covers ::setFilesystem
      * @covers ::<private>
      */
-    public function testIfCorrectFilesAreBeingYielded() : void
+    public function testIfCorrectFilesAreBeingYielded(): void
     {
         $isHidden   = m::mock(IsHidden::class);
         $filesystem = m::mock(Filesystem::class);
@@ -248,7 +249,7 @@ class FinderTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
-    public function testSubtreePruningOptimization() : void
+    public function testSubtreePruningOptimization(): void
     {
         $filesystem = $this->mockFileSystem(
             [
@@ -295,7 +296,7 @@ class FinderTest extends TestCase
         $this->assertEquals($expected, $this->generatorToFileList($generator));
     }
 
-    public function testGlobSubtreePruning() : void
+    public function testGlobSubtreePruning(): void
     {
         $filesystem  = $this->mockFileSystem(
             [
@@ -342,7 +343,7 @@ class FinderTest extends TestCase
     /**
      * @return string[]
      */
-    protected function generatorToFileList(Generator $generator) : array
+    protected function generatorToFileList(Generator $generator): array
     {
         $actual = array_values(array_map(static function ($v) {
             return $v['path'];
@@ -357,7 +358,7 @@ class FinderTest extends TestCase
      *
      * @return mixed[]
      */
-    protected function mockFileTree(array $pathList) : array
+    protected function mockFileTree(array $pathList): array
     {
         $result = [
             '.' => [
@@ -397,7 +398,7 @@ class FinderTest extends TestCase
                         ];
                     }
 
-                    if ($child!==null) {
+                    if ($child !== null) {
                         $result[$path]['contents'][] = $child;
                     }
 
@@ -419,14 +420,14 @@ class FinderTest extends TestCase
      *
      * @return mixed[]
      */
-    protected function mockListContents(array $fileTreeMock, string $path) : array
+    protected function mockListContents(array $fileTreeMock, string $path): array
     {
         $path = trim($path, '/');
-        if (substr($path . '  ', 0, 2)==='./') {
+        if (substr($path . '  ', 0, 2) === './') {
             $path = substr($path, 2);
         }
 
-        if ($path==='') {
+        if ($path === '') {
             $path = '.';
         }
 
@@ -436,7 +437,7 @@ class FinderTest extends TestCase
 
         $result = [];
         foreach ($fileTreeMock[$path]['contents'] as $basename) {
-            $childPath = ($path==='.' ? '' : $path . '/') . $basename;
+            $childPath = ($path === '.' ? '' : $path . '/') . $basename;
             if (!isset($fileTreeMock[$childPath])) {
                 continue;
             }
@@ -451,13 +452,13 @@ class FinderTest extends TestCase
      * @param string[] $paths
      * @param string[] $pathsThatShouldNotBeListed
      */
-    protected function mockFileSystem(array $paths, array $pathsThatShouldNotBeListed = []) : FilesystemInterface
+    protected function mockFileSystem(array $paths, array $pathsThatShouldNotBeListed = []): FilesystemInterface
     {
         $fsData     = $this->mockFileTree($paths);
         $filesystem = m::mock(Filesystem::class);
         $filesystem->shouldReceive('listContents')
             ->zeroOrMoreTimes()
-            ->andReturnUsing(function (string $path) use ($fsData, $pathsThatShouldNotBeListed) : array {
+            ->andReturnUsing(function (string $path) use ($fsData, $pathsThatShouldNotBeListed): array {
                 $this->assertNotContains($path, $pathsThatShouldNotBeListed);
 
                 return array_values($this->mockListContents($fsData, $path));

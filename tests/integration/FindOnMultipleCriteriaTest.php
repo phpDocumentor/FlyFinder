@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FindOnMultipleCriteriaTest extends TestCase
 {
-    public function testFindingFilesOnMultipleCriteria() : void
+    public function testFindingFilesOnMultipleCriteria(): void
     {
         $result = [];
         include __DIR__ . '/../../examples/02-find-on-multiple-criteria.php';

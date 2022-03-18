@@ -24,8 +24,7 @@ interface SpecificationInterface
      * Checks if the value meets the specification
      *
      * @param mixed[] $value
-     *
      * @psalm-param array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $value
      */
-    public function isSatisfiedBy(array $value) : bool;
+    public function isSatisfiedBy(array $value): bool;
 }

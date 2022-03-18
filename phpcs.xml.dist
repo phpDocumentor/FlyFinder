@@ -2,6 +2,7 @@
 <ruleset name="phpDocumentor">
  <description>The coding standard for phpDocumentor.</description>
 
+    <config name="php_version" value="70200"/>
     <file>src</file>
     <file>tests/unit</file>
     <file>tests/integration</file>

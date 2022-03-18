@@ -35,14 +35,14 @@ class OrSpecificationTest extends TestCase
     /**
      * Initializes the fixture for this test.
      */
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->hasExtension = m::mock(HasExtension::class);
         $this->isHidden     = m::mock(IsHidden::class);
         $this->fixture      = new OrSpecification($this->hasExtension, $this->isHidden);
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         m::close();
     }
@@ -51,7 +51,7 @@ class OrSpecificationTest extends TestCase
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      */
-    public function testIfSpecificationIsSatisfied() : void
+    public function testIfSpecificationIsSatisfied(): void
     {
         $this->hasExtension->shouldReceive('isSatisfiedBy')->once()->andReturn(false);
         $this->isHidden->shouldReceive('isSatisfiedBy')->once()->andReturn(true);
@@ -63,7 +63,7 @@ class OrSpecificationTest extends TestCase
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      */
-    public function testIfSpecificationIsNotSatisfied() : void
+    public function testIfSpecificationIsNotSatisfied(): void
     {
         $this->hasExtension->shouldReceive('isSatisfiedBy')->once()->andReturn(false);
         $this->isHidden->shouldReceive('isSatisfiedBy')->once()->andReturn(false);

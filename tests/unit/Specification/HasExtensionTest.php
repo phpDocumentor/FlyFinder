@@ -29,12 +29,12 @@ class HasExtensionTest extends TestCase
     /**
      * Initializes the fixture for this test.
      */
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->fixture = new HasExtension(['txt']);
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         m::close();
     }
@@ -43,7 +43,7 @@ class HasExtensionTest extends TestCase
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      */
-    public function testIfSpecificationIsSatisfied() : void
+    public function testIfSpecificationIsSatisfied(): void
     {
         $this->assertTrue($this->fixture->isSatisfiedBy(['extension' => 'txt']));
     }
@@ -52,7 +52,7 @@ class HasExtensionTest extends TestCase
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      */
-    public function testIfSpecificationIsNotSatisfied() : void
+    public function testIfSpecificationIsNotSatisfied(): void
     {
         $this->assertFalse($this->fixture->isSatisfiedBy(['extension' => 'php']));
     }

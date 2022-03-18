@@ -29,12 +29,12 @@ class IsHiddenTest extends TestCase
     /**
      * Initializes the fixture for this test.
      */
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->fixture = new IsHidden();
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         m::close();
     }
@@ -42,7 +42,7 @@ class IsHiddenTest extends TestCase
     /**
      * @covers ::isSatisfiedBy
      */
-    public function testIfSpecificationIsSatisfied() : void
+    public function testIfSpecificationIsSatisfied(): void
     {
         $this->assertTrue($this->fixture->isSatisfiedBy(['basename' => '.test']));
     }
@@ -50,7 +50,7 @@ class IsHiddenTest extends TestCase
     /**
      * @covers ::isSatisfiedBy
      */
-    public function testIfSpecificationIsNotSatisfied() : void
+    public function testIfSpecificationIsNotSatisfied(): void
     {
         $this->assertFalse($this->fixture->isSatisfiedBy(['basename' => 'test']));
     }

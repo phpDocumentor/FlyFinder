@@ -32,13 +32,13 @@ class NotSpecificationTest extends TestCase
     /**
      * Initializes the fixture for this test.
      */
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->hasExtension = m::mock(HasExtension::class);
         $this->fixture      = new NotSpecification($this->hasExtension);
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         m::close();
     }
@@ -47,7 +47,7 @@ class NotSpecificationTest extends TestCase
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      */
-    public function testIfSpecificationIsSatisfied() : void
+    public function testIfSpecificationIsSatisfied(): void
     {
         $this->hasExtension->shouldReceive('isSatisfiedBy')->once()->andReturn(false);
 
@@ -58,7 +58,7 @@ class NotSpecificationTest extends TestCase
      * @covers ::__construct
      * @covers ::isSatisfiedBy
      */
-    public function testIfSpecificationIsNotSatisfied() : void
+    public function testIfSpecificationIsNotSatisfied(): void
     {
         $this->hasExtension->shouldReceive('isSatisfiedBy')->once()->andReturn(true);
 

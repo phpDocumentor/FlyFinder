@@ -32,19 +32,19 @@ final class NotSpecification extends CompositeSpecification
     /**
      * {@inheritDoc}
      */
-    public function isSatisfiedBy(array $value) : bool
+    public function isSatisfiedBy(array $value): bool
     {
         return !$this->wrapped->isSatisfiedBy($value);
     }
 
     /** @inheritDoc */
-    public function canBeSatisfiedBySomethingBelow(array $value) : bool
+    public function canBeSatisfiedBySomethingBelow(array $value): bool
     {
         return !self::thatWillBeSatisfiedByEverythingBelow($this->wrapped, $value);
     }
 
     /** @inheritDoc */
-    public function willBeSatisfiedByEverythingBelow(array $value) : bool
+    public function willBeSatisfiedByEverythingBelow(array $value): bool
     {
         return !self::thatCanBeSatisfiedBySomethingBelow($this->wrapped, $value);
     }

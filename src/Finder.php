@@ -36,7 +36,7 @@ class Finder implements PluginInterface
     /**
      * Get the method name.
      */
-    public function getMethod() : string
+    public function getMethod(): string
     {
         return 'find';
     }
@@ -44,7 +44,7 @@ class Finder implements PluginInterface
     /**
      * Set the Filesystem object.
      */
-    public function setFilesystem(FilesystemInterface $filesystem) : void
+    public function setFilesystem(FilesystemInterface $filesystem): void
     {
         $this->filesystem = $filesystem;
     }
@@ -59,12 +59,14 @@ class Finder implements PluginInterface
      *
      * @return Generator<mixed>
      */
-    public function handle(SpecificationInterface $specification) : Generator
+    public function handle(SpecificationInterface $specification): Generator
     {
         foreach ($this->yieldFilesInPath($specification, '') as $path) {
-            if (isset($path['type']) && $path['type'] === 'file') {
-                yield $path;
+            if (!isset($path['type']) || $path['type'] !== 'file') {
+                continue;
             }
+
+            yield $path;
         }
     }
 
@@ -77,10 +79,9 @@ class Finder implements PluginInterface
      * by {@link handle()}.
      *
      * @return Generator<mixed>
-     *
      * @psalm-return Generator<array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string}>
      */
-    private function yieldFilesInPath(SpecificationInterface $specification, string $path) : Generator
+    private function yieldFilesInPath(SpecificationInterface $specification, string $path): Generator
     {
         $listContents = $this->filesystem->listContents($path);
         /** @psalm-var array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $location */
@@ -89,7 +90,8 @@ class Finder implements PluginInterface
                 yield $location;
             }
 
-            if ($location['type'] !== 'dir'
+            if (
+                $location['type'] !== 'dir'
                 || !CompositeSpecification::thatCanBeSatisfiedBySomethingBelow($specification, $location)
             ) {
                 continue;

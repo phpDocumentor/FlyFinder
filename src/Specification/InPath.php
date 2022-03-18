@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Flyfinder\Specification;
 
 use Flyfinder\Path;
+
 use function array_slice;
 use function count;
 use function explode;
@@ -46,7 +47,7 @@ class InPath extends CompositeSpecification
     /**
      * {@inheritDoc}
      */
-    public function isSatisfiedBy(array $value) : bool
+    public function isSatisfiedBy(array $value): bool
     {
         if (in_array($this->path, ['', '.', './'], false)) {
             /*
@@ -90,7 +91,7 @@ class InPath extends CompositeSpecification
     }
 
     /** @inheritDoc */
-    public function canBeSatisfiedBySomethingBelow(array $value) : bool
+    public function canBeSatisfiedBySomethingBelow(array $value): bool
     {
         $pathSegments       = explode('/', (string) $this->path);
         $valueSegments      = explode('/', $value['path']);
@@ -101,7 +102,7 @@ class InPath extends CompositeSpecification
     }
 
     /** @inheritDoc */
-    public function willBeSatisfiedByEverythingBelow(array $value) : bool
+    public function willBeSatisfiedByEverythingBelow(array $value): bool
     {
         return $this->isSatisfiedBy($value);
     }
