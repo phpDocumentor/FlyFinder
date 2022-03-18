@@ -1,0 +1,6 @@
+parameters:
+  level: max
+  paths:
+    - %currentWorkingDirectory%/src/
+  ignoreErrors:
+    - '/Offset .+ on array.+ in isset\(\) always exists and is not nullable./'
