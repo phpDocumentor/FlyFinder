@@ -48,6 +48,8 @@ jobs:
     needs: setup
     steps:
       - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
       - name: Restore/cache vendor folder
         uses: actions/cache@v1
         with:
@@ -71,6 +73,11 @@ jobs:
           coverage: xdebug
       - name: Run PHPUnit
         run: php tools/phpunit
+      - name: Send code coverage to Scrutinizer
+        uses: sudo-bot/action-scrutinizer@latest
+        if: github.repository == 'phpDocumentor/FlyFinder'
+        with:
+          cli-args: "--format=php-clover build/logs/clover.xml --revision=${{ github.event.pull_request.head.sha || github.sha }}"
 
   codestyle:
     runs-on: ubuntu-latest

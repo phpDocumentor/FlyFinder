@@ -1,5 +1,4 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Coveralls Coverage](https://img.shields.io/coveralls/github/phpDocumentor/FlyFinder.svg)](https://coveralls.io/github/phpDocumentor/FlyFinder?branch=master)
 [![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/phpDocumentor/FlyFinder.svg)](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/?branch=master)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/phpDocumentor/FlyFinder.svg)](https://scrutinizer-ci.com/g/phpDocumentor/FlyFinder/?branch=master)
 [![Stable Version](https://img.shields.io/packagist/v/phpDocumentor/FlyFinder.svg)](https://packagist.org/packages/phpDocumentor/FlyFinder)
