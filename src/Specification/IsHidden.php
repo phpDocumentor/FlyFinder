@@ -25,7 +25,7 @@ class IsHidden extends CompositeSpecification
     /**
      * {@inheritDoc}
      */
-    public function isSatisfiedBy(array $value) : bool
+    public function isSatisfiedBy(array $value): bool
     {
         return isset($value['basename']) && substr($value['basename'], 0, 1) === '.';
     }

@@ -37,7 +37,7 @@ final class Path
     /**
      * returns a string representation of the path.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->path;
     }

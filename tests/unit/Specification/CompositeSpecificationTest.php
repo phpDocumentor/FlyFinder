@@ -33,13 +33,13 @@ class CompositeSpecificationTest extends TestCase
     /**
      * Initializes the fixture for this test.
      */
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->hasExtension = m::mock(HasExtension::class);
         $this->fixture      = $this->getMockForAbstractClass(CompositeSpecification::class);
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         m::close();
     }
@@ -49,7 +49,7 @@ class CompositeSpecificationTest extends TestCase
      *
      * @covers ::andSpecification
      */
-    public function testAndSpecification() : void
+    public function testAndSpecification(): void
     {
         $this->assertInstanceOf(
             AndSpecification::class,
@@ -62,7 +62,7 @@ class CompositeSpecificationTest extends TestCase
      *
      * @covers ::orSpecification
      */
-    public function testOrSpecification() : void
+    public function testOrSpecification(): void
     {
         $this->assertInstanceOf(
             OrSpecification::class,
@@ -75,7 +75,7 @@ class CompositeSpecificationTest extends TestCase
      *
      * @covers ::notSpecification
      */
-    public function testNotSpecification() : void
+    public function testNotSpecification(): void
     {
         $this->assertInstanceOf(
             NotSpecification::class,

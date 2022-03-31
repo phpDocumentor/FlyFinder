@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace Flyfinder\Specification;
 
 use InvalidArgumentException;
+
 use function array_slice;
 use function count;
 use function explode;
@@ -76,7 +77,7 @@ final class Glob extends CompositeSpecification
     /**
      * @inheritDoc
      */
-    public function isSatisfiedBy(array $value) : bool
+    public function isSatisfiedBy(array $value): bool
     {
         //Flysystem paths are not absolute, so make it that way.
         $path = '/' . $value['path'];
@@ -101,7 +102,7 @@ final class Glob extends CompositeSpecification
      *
      * @psalm-pure
      */
-    private static function getStaticPrefix(string $glob) : string
+    private static function getStaticPrefix(string $glob): string
     {
         self::assertValidGlob($glob);
         $prefix = '';
@@ -135,7 +136,7 @@ final class Glob extends CompositeSpecification
         return $prefix;
     }
 
-    private static function getBoundedPrefix(string $glob) : string
+    private static function getBoundedPrefix(string $glob): string
     {
         self::assertValidGlob($glob);
         $prefix = '';
@@ -165,23 +166,23 @@ final class Glob extends CompositeSpecification
         return $prefix;
     }
 
-    private static function getTotalPrefix(string $glob) : ?string
+    private static function getTotalPrefix(string $glob): ?string
     {
         self::assertValidGlob($glob);
         $matches = [];
 
         return preg_match('~(?<!\\\\)/\\*\\*(?:/\\*\\*?)+$~', $glob, $matches)
-            ? substr($glob, 0, strlen($glob)-strlen($matches[0]))
+            ? substr($glob, 0, strlen($glob) - strlen($matches[0]))
             : null;
     }
 
     /**
      * @return mixed[]
-     *
      * @psalm-return array{0: string, 1:int}
+     *
      * @psalm-pure
      */
-    private static function scanBackslashSequence(string $glob, int $offset) : array
+    private static function scanBackslashSequence(string $glob, int $offset): array
     {
         $startOffset = $offset;
         $result      = '';
@@ -212,7 +213,7 @@ final class Glob extends CompositeSpecification
      *
      * @psalm-pure
      */
-    private static function assertValidGlob(string $glob) : void
+    private static function assertValidGlob(string $glob): void
     {
         if (strpos($glob, '/') !== 0 && strpos($glob, '://') === false) {
             throw new InvalidArgumentException(sprintf(
@@ -227,7 +228,7 @@ final class Glob extends CompositeSpecification
      *
      * @psalm-pure
      */
-    private static function isRecursiveWildcard(string $glob, int $i) : bool
+    private static function isRecursiveWildcard(string $glob, int $i): bool
     {
         return isset($glob[$i + 3]) && $glob[$i + 1] . $glob[$i + 2] . $glob[$i + 3] === '**/';
     }
@@ -243,7 +244,7 @@ final class Glob extends CompositeSpecification
      *
      * @psalm-pure
      */
-    private static function toRegEx(string $glob) : string
+    private static function toRegEx(string $glob): string
     {
         $delimiter   = '~';
         $inSquare    = false;
@@ -357,13 +358,16 @@ final class Glob extends CompositeSpecification
     }
 
     /** @inheritDoc */
-    public function canBeSatisfiedBySomethingBelow(array $value) : bool
+    public function canBeSatisfiedBySomethingBelow(array $value): bool
     {
         $valueSegments             = explode('/', '/' . $value['path']);
         $boundedPrefixSegments     = explode('/', rtrim($this->boundedPrefix, '/'));
         $howManySegmentsToConsider = min(count($valueSegments), count($boundedPrefixSegments));
         $boundedPrefixGlob         = implode('/', array_slice($boundedPrefixSegments, 0, $howManySegmentsToConsider));
-        $valuePathPrefix           = implode('/', array_slice($valueSegments, 1, max($howManySegmentsToConsider-1, 0)));
+        $valuePathPrefix           = implode(
+            '/',
+            array_slice($valueSegments, 1, max($howManySegmentsToConsider - 1, 0))
+        );
         $prefixValue               = $value;
         $prefixValue['path']       = $valuePathPrefix;
 
@@ -377,7 +381,7 @@ final class Glob extends CompositeSpecification
     }
 
     /** @inheritDoc */
-    public function willBeSatisfiedByEverythingBelow(array $value) : bool
+    public function willBeSatisfiedByEverythingBelow(array $value): bool
     {
         if ($this->totalPrefix === null) {
             return false;

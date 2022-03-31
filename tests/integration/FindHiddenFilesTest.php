@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FindHiddenFilesTest extends TestCase
 {
-    public function testFindingHiddenFiles() : void
+    public function testFindingHiddenFiles(): void
     {
         $result = [];
         include __DIR__ . '/../../examples/01-find-hidden-files.php';

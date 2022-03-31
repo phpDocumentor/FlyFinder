@@ -7,6 +7,7 @@ namespace Flyfinder\Specification;
 use Generator;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+
 use function is_array;
 use function sprintf;
 
@@ -20,13 +21,12 @@ final class GlobTest extends TestCase
 {
     /**
      * @param mixed[] $file
+     * @psalm-param array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $file
      *
      * @dataProvider matchingPatternFileProvider
      * @dataProvider matchingPatternFileWithEscapeCharProvider
-     *
-     * @psalm-param array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $file
      */
-    public function testGlobIsMatching(string $pattern, array $file) : void
+    public function testGlobIsMatching(string $pattern, array $file): void
     {
         $glob = new Glob($pattern);
 
@@ -38,11 +38,11 @@ final class GlobTest extends TestCase
 
     /**
      * @param mixed[] $file
+     * @psalm-param array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $file
      *
      * @dataProvider notMatchingPatternFileProvider
-     * @psalm-param array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $file
      */
-    public function testGlobIsNotMatching(string $pattern, array $file) : void
+    public function testGlobIsNotMatching(string $pattern, array $file): void
     {
         $glob = new Glob($pattern);
 
@@ -55,7 +55,7 @@ final class GlobTest extends TestCase
     /**
      * @dataProvider invalidPatternProvider
      */
-    public function testInvalidGlobThrows(string $pattern) : void
+    public function testInvalidGlobThrows(string $pattern): void
     {
         $this->expectException(InvalidArgumentException::class);
         new Glob($pattern);
@@ -64,13 +64,13 @@ final class GlobTest extends TestCase
     /**
      * @covers ::canBeSatisfiedBySomethingBelow
      */
-    public function testCanBeSatisfiedBySomethingBelow() : void
+    public function testCanBeSatisfiedBySomethingBelow(): void
     {
         $glob = new Glob('/**/*');
         $this->assertTrue($glob->canBeSatisfiedBySomethingBelow(['path' => 'src']));
     }
 
-    public function invalidPatternProvider() : Generator
+    public function invalidPatternProvider(): Generator
     {
         $invalidPatterns = [
             '[aaa',
@@ -84,7 +84,7 @@ final class GlobTest extends TestCase
         }
     }
 
-    public function matchingPatternFileProvider() : Generator
+    public function matchingPatternFileProvider(): Generator
     {
         $input = [
             '/*.php' => 'test.php',
@@ -113,7 +113,7 @@ final class GlobTest extends TestCase
         yield from $this->toTestData($input);
     }
 
-    public function matchingPatternFileWithEscapeCharProvider() : Generator
+    public function matchingPatternFileWithEscapeCharProvider(): Generator
     {
         $escapeChars = [
             '*',
@@ -140,7 +140,7 @@ final class GlobTest extends TestCase
         }
     }
 
-    public function notMatchingPatternFileProvider() : Generator
+    public function notMatchingPatternFileProvider(): Generator
     {
         $input = [
             '/*.php' => 'test.css',
@@ -161,7 +161,7 @@ final class GlobTest extends TestCase
     /**
      * @param mixed[] $input
      */
-    private function toTestData(array $input) : Generator
+    private function toTestData(array $input): Generator
     {
         foreach ($input as $glob => $path) {
             if (!is_array($path)) {

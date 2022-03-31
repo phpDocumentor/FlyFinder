@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FindOnSamplePhpdocLayoutTest extends TestCase
 {
-    public function testFindingOnSamplePhpdocLayout() : void
+    public function testFindingOnSamplePhpdocLayout(): void
     {
         $result = [];
         include __DIR__ . '/../../examples/03-sample-phpdoc-layout.php';

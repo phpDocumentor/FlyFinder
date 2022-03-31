@@ -38,7 +38,7 @@ class HasExtension extends CompositeSpecification
     /**
      * {@inheritDoc}
      */
-    public function isSatisfiedBy(array $value) : bool
+    public function isSatisfiedBy(array $value): bool
     {
         return isset($value['extension']) && in_array($value['extension'], $this->extensions, false);
     }

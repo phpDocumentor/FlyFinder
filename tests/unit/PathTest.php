@@ -26,7 +26,7 @@ class PathTest extends TestCase
      * @covers ::__construct
      * @covers ::__toString
      */
-    public function testToString() : void
+    public function testToString(): void
     {
         $path = new Path('/my/Path');
 

@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FindOnSamplePhpdocLayoutUsingGlobTest extends TestCase
 {
-    public function testFindingOnSamplePhpdocLayout() : void
+    public function testFindingOnSamplePhpdocLayout(): void
     {
         $result = [];
         include __DIR__ . '/../../examples/04-sample-phpdoc-layout-using-glob.php';
