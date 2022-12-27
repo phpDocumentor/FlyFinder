@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Flyfinder\Specification;
 
 use Flyfinder\Path;
+use League\Flysystem\StorageAttributes;
 
 use function array_slice;
 use function count;
@@ -21,8 +22,11 @@ use function explode;
 use function implode;
 use function in_array;
 use function min;
+use function pathinfo;
 use function preg_match;
 use function str_replace;
+
+use const PATHINFO_DIRNAME;
 
 /**
  * Files *and directories* meet the specification if they are in the given path.
@@ -44,10 +48,7 @@ class InPath extends CompositeSpecification
         $this->path = $path;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function isSatisfiedBy(array $value): bool
+    public function isSatisfiedBy(array|StorageAttributes $value): bool
     {
         if (in_array($this->path, ['', '.', './'], false)) {
             /*
@@ -66,11 +67,13 @@ class InPath extends CompositeSpecification
          * this should also hit a perfect DIR=DIR_SPEC match,
          *   e.g. value path 'src/Cilex/Provider' should match DIR spec of 'src/Cilex/Provider'
          */
+        /** @psalm-suppress ImpureMethodCall */
         if (isset($value['path'])) {
             $pattern = '(^(?!\/)'
                 . str_replace(['?', '*'], [$validChars . '{1}', $validChars . '*'], $path)
                 . '(?:/' . $validChars . '*)?$)';
-            if (preg_match($pattern, $value['path'])) {
+            /** @psalm-suppress ImpureMethodCall */
+            if (preg_match($pattern, (string) $value['path'])) {
                 return true;
             }
         }
@@ -78,11 +81,13 @@ class InPath extends CompositeSpecification
         /* a DIR spec that wasn't an exact match should be able to match on dirname,
          *   e.g. value dirname 'src' of path 'src/Cilex' should match DIR spec of 'src'
          */
-        if (isset($value['dirname'])) {
+        /** @psalm-suppress ImpureMethodCall */
+        $dirname = pathinfo((string) $value['path'], PATHINFO_DIRNAME);
+        if ($dirname) {
             $pattern = '(^(?!\/)'
                 . str_replace(['?', '*'], [$validChars . '{1}', $validChars . '*'], $path . '/')
                 . $validChars . '*)';
-            if (preg_match($pattern, $value['dirname'] . '/')) {
+            if (preg_match($pattern, $dirname . '/')) {
                 return true;
             }
         }
@@ -90,19 +95,19 @@ class InPath extends CompositeSpecification
         return false;
     }
 
-    /** @inheritDoc */
-    public function canBeSatisfiedBySomethingBelow(array $value): bool
+    public function canBeSatisfiedBySomethingBelow(array|StorageAttributes $value): bool
     {
-        $pathSegments       = explode('/', (string) $this->path);
-        $valueSegments      = explode('/', $value['path']);
+        $pathSegments = explode('/', (string) $this->path);
+
+        /** @psalm-suppress ImpureMethodCall */
+        $valueSegments      = explode('/', (string) $value['path']);
         $pathPrefixSegments = array_slice($pathSegments, 0, min(count($pathSegments), count($valueSegments)));
         $spec               = new InPath(new Path(implode('/', $pathPrefixSegments)));
 
         return $spec->isSatisfiedBy($value);
     }
 
-    /** @inheritDoc */
-    public function willBeSatisfiedByEverythingBelow(array $value): bool
+    public function willBeSatisfiedByEverythingBelow(array|StorageAttributes $value): bool
     {
         return $this->isSatisfiedBy($value);
     }

@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Flyfinder\Specification;
 
+use League\Flysystem\StorageAttributes;
+
 use function in_array;
+use function preg_match;
 
 /**
  * Files and directories meet the specification if they have the given extension
@@ -35,11 +38,18 @@ class HasExtension extends CompositeSpecification
         $this->extensions = $extensions;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function isSatisfiedBy(array $value): bool
+    public function isSatisfiedBy(array|StorageAttributes $value): bool
     {
-        return isset($value['extension']) && in_array($value['extension'], $this->extensions, false);
+        $matches = [];
+        /** @psalm-suppress ImpureMethodCall */
+        if (preg_match('/(^|\/)\.[^.]+$/', (string) $value['path'])) {
+            return false;
+        }
+
+        /** @psalm-suppress ImpureMethodCall */
+        preg_match('/\.([^.]+)$/', (string) $value['path'], $matches);
+        $extension = $matches[1] ?? null;
+
+        return $extension && in_array($extension, $this->extensions, false);
     }
 }

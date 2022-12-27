@@ -15,6 +15,10 @@ namespace Flyfinder;
 
 use PHPUnit\Framework\TestCase;
 
+use function pathinfo;
+
+use const PATHINFO_BASENAME;
+
 /**
  * Integration test against examples/03-sample-phpdoc-layout.php
  *
@@ -26,11 +30,12 @@ class FindOnSamplePhpdocLayoutTest extends TestCase
     {
         $result = [];
         include __DIR__ . '/../../examples/03-sample-phpdoc-layout.php';
+        $basenameOf = static fn ($value) => pathinfo($value['path'], PATHINFO_BASENAME);
 
         $this->assertCount(4, $result);
-        $this->assertSame('JmsSerializerServiceProvider.php', $result[0]['basename']);
-        $this->assertSame('MonologServiceProvider.php', $result[1]['basename']);
-        $this->assertSame('Application.php', $result[2]['basename']);
-        $this->assertSame('Bootstrap.php', $result[3]['basename']);
+        $this->assertSame('JmsSerializerServiceProvider.php', $basenameOf($result[0]));
+        $this->assertSame('MonologServiceProvider.php', $basenameOf($result[1]));
+        $this->assertSame('Application.php', $basenameOf($result[2]));
+        $this->assertSame('Bootstrap.php', $basenameOf($result[3]));
     }
 }

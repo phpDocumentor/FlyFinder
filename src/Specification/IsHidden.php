@@ -13,7 +13,12 @@ declare(strict_types=1);
 
 namespace Flyfinder\Specification;
 
-use function substr;
+use League\Flysystem\StorageAttributes;
+
+use function pathinfo;
+use function str_starts_with;
+
+use const PATHINFO_BASENAME;
 
 /**
  * Files or directories meet the specification if they are hidden
@@ -22,11 +27,11 @@ use function substr;
  */
 class IsHidden extends CompositeSpecification
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function isSatisfiedBy(array $value): bool
+    public function isSatisfiedBy(array|StorageAttributes $value): bool
     {
-        return isset($value['basename']) && substr($value['basename'], 0, 1) === '.';
+        /** @psalm-suppress ImpureMethodCall */
+        $basename = pathinfo((string) $value['path'], PATHINFO_BASENAME);
+
+        return $basename && str_starts_with($basename, '.');
     }
 }

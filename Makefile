@@ -21,11 +21,11 @@ phpstan:
 
 .PHONY: psaml
 psalm:
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:7.4 tools/psalm
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.2 tools/psalm
 
 .PHONY: test
 test:
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:7.2 tools/phpunit
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.2 tools/phpunit
 
 .PHONY: pre-commit-test
 pre-commit-test: test phpcs phpstan psalm

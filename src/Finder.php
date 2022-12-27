@@ -16,35 +16,34 @@ namespace Flyfinder;
 use Flyfinder\Specification\CompositeSpecification;
 use Flyfinder\Specification\SpecificationInterface;
 use Generator;
-use League\Flysystem\File;
-use League\Flysystem\FilesystemInterface;
-use League\Flysystem\PluginInterface;
+use League\Flysystem\FilesystemOperator;
+use RuntimeException;
 
 /**
  * Flysystem plugin to add file finding capabilities to the filesystem entity.
  *
  * Note that found *directories* are **not** returned... only found *files*.
  */
-class Finder implements PluginInterface
+class Finder
 {
     /**
-     * @var FilesystemInterface
+     * @var FilesystemOperator|null
      * @psalm-suppress PropertyNotSetInConstructor
      */
     private $filesystem;
 
     /**
-     * Get the method name.
+     * Construct the Finder object.
      */
-    public function getMethod(): string
+    public function __construct(?FilesystemOperator $filesystem = null)
     {
-        return 'find';
+        $this->filesystem = $filesystem;
     }
 
     /**
      * Set the Filesystem object.
      */
-    public function setFilesystem(FilesystemInterface $filesystem): void
+    public function setFilesystem(FilesystemOperator $filesystem): void
     {
         $this->filesystem = $filesystem;
     }
@@ -59,7 +58,7 @@ class Finder implements PluginInterface
      *
      * @return Generator<mixed>
      */
-    public function handle(SpecificationInterface $specification): Generator
+    public function find(SpecificationInterface $specification): Generator
     {
         foreach ($this->yieldFilesInPath($specification, '') as $path) {
             if (!isset($path['type']) || $path['type'] !== 'file') {
@@ -76,13 +75,17 @@ class Finder implements PluginInterface
      * Note that directories are also yielded at this level,
      * since they have to be recursed into.  Yielded directories
      * will not make their way back to the caller, as they are filtered out
-     * by {@link handle()}.
+     * by {@link find()}.
      *
      * @return Generator<mixed>
      * @psalm-return Generator<array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string}>
      */
     private function yieldFilesInPath(SpecificationInterface $specification, string $path): Generator
     {
+        if (!$this->filesystem) {
+            throw new RuntimeException('No filesystem was set in the Finder object');
+        }
+
         $listContents = $this->filesystem->listContents($path);
         /** @psalm-var array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $location */
         foreach ($listContents as $location) {

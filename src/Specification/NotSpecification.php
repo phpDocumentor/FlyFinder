@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Flyfinder\Specification;
 
+use League\Flysystem\StorageAttributes;
+
 /**
  * @psalm-immutable
  */
@@ -29,22 +31,17 @@ final class NotSpecification extends CompositeSpecification
         $this->wrapped = $wrapped;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function isSatisfiedBy(array $value): bool
+    public function isSatisfiedBy(array|StorageAttributes $value): bool
     {
         return !$this->wrapped->isSatisfiedBy($value);
     }
 
-    /** @inheritDoc */
-    public function canBeSatisfiedBySomethingBelow(array $value): bool
+    public function canBeSatisfiedBySomethingBelow(array|StorageAttributes $value): bool
     {
         return !self::thatWillBeSatisfiedByEverythingBelow($this->wrapped, $value);
     }
 
-    /** @inheritDoc */
-    public function willBeSatisfiedByEverythingBelow(array $value): bool
+    public function willBeSatisfiedByEverythingBelow(array|StorageAttributes $value): bool
     {
         return !self::thatCanBeSatisfiedBySomethingBelow($this->wrapped, $value);
     }

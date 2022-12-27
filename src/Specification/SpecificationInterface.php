@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Flyfinder\Specification;
 
+use League\Flysystem\StorageAttributes;
+
 /**
  * Interface for FlyFinder specifications
  *
@@ -23,8 +25,7 @@ interface SpecificationInterface
     /**
      * Checks if the value meets the specification
      *
-     * @param mixed[] $value
-     * @psalm-param array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $value
+     * @psalm-param StorageAttributes|array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $value
      */
-    public function isSatisfiedBy(array $value): bool;
+    public function isSatisfiedBy(array|StorageAttributes $value): bool;
 }

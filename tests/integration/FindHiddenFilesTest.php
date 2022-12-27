@@ -15,6 +15,10 @@ namespace Flyfinder;
 
 use PHPUnit\Framework\TestCase;
 
+use function pathinfo;
+
+use const PATHINFO_BASENAME;
+
 /**
  * Integration test against examples/01-find-hidden-files.php
  *
@@ -28,6 +32,6 @@ class FindHiddenFilesTest extends TestCase
         include __DIR__ . '/../../examples/01-find-hidden-files.php';
 
         $this->assertCount(1, $result);
-        $this->assertSame('.test.txt', $result[0]['basename']);
+        $this->assertSame('.test.txt', pathinfo($result[0]['path'], PATHINFO_BASENAME));
     }
 }

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Flyfinder\Specification;
 
+use League\Flysystem\StorageAttributes;
+
 /**
  * Base class for specifications, allows for combining specifications
  *
@@ -47,14 +49,12 @@ abstract class CompositeSpecification implements SpecificationInterface, Prunabl
         return new NotSpecification($this);
     }
 
-    /** {@inheritDoc} */
-    public function canBeSatisfiedBySomethingBelow(array $value): bool
+    public function canBeSatisfiedBySomethingBelow(array|StorageAttributes $value): bool
     {
         return true;
     }
 
-    /** {@inheritDoc} */
-    public function willBeSatisfiedByEverythingBelow(array $value): bool
+    public function willBeSatisfiedByEverythingBelow(array|StorageAttributes $value): bool
     {
         return false;
     }
@@ -63,12 +63,11 @@ abstract class CompositeSpecification implements SpecificationInterface, Prunabl
      * Provide default {@see canBeSatisfiedBySomethingBelow()} logic for specification classes
      * that don't implement PrunableInterface
      *
-     * @param mixed[] $value
-     * @psalm-param array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $value
+     * @psalm-param StorageAttributes|array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $value
      *
      * @psalm-mutation-free
      */
-    public static function thatCanBeSatisfiedBySomethingBelow(SpecificationInterface $that, array $value): bool
+    public static function thatCanBeSatisfiedBySomethingBelow(SpecificationInterface $that, array|StorageAttributes $value): bool
     {
         return $that instanceof PrunableInterface
                 ? $that->canBeSatisfiedBySomethingBelow($value)
@@ -79,12 +78,11 @@ abstract class CompositeSpecification implements SpecificationInterface, Prunabl
      * Provide default {@see willBeSatisfiedByEverythingBelow()} logic for specification classes
      * that don't implement PrunableInterface
      *
-     * @param mixed[] $value
-     * @psalm-param array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $value
+     * @psalm-param StorageAttributes|array{basename: string, path: string, stream: resource, dirname: string, type: string, extension: string} $value
      *
      * @psalm-mutation-free
      */
-    public static function thatWillBeSatisfiedByEverythingBelow(SpecificationInterface $that, array $value): bool
+    public static function thatWillBeSatisfiedByEverythingBelow(SpecificationInterface $that, array|StorageAttributes $value): bool
     {
         return $that instanceof PrunableInterface
             && $that->willBeSatisfiedByEverythingBelow($value);
