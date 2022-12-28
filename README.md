@@ -8,7 +8,7 @@
 FlyFinder
 =========
 
-FlyFinder is a plugin for [Flysystem](http://flysystem.thephpleague.com/) that will enable you to find files
+FlyFinder is a utility class for [Flysystem](http://flysystem.thephpleague.com/) that will enable you to find files
 based on certain criteria.
 
 FlyFinder can search for files that are hidden (either because they are hidden files themselves, or because they are
@@ -33,14 +33,14 @@ In order to use the FlyFinder plugin you first need a Flyfinder filesystem with 
 for instance the local adapter.
 
     use League\Flysystem\Filesystem;
-    use League\Flysystem\Adapter;
+    use League\Flysystem\Local\LocalFilesystemAdapter as LocalAdapter;
     use Flyfinder\Finder;
 
-    $filesystem = new Filesystem(new Adapter\Local(__DIR__.'/path/to/files/'));
+    $filesystem = new Filesystem(new LocalAdapter(__DIR__.'/path/to/files/'));
 
-Now you can add the plugin as follows:
+Now you can create the `Finder` instance:
 
-    $filesystem->addPlugin(new Finder());
+    $finder = new Finder($filesystem); 
 
 FlyFinder will need specifications to know what to look for. The following specifications are available:
 
@@ -74,6 +74,6 @@ extension.
 
 You can also make longer chains like this:
 
-` $specification = $inPath->andSpecification($hasExtension)->andSpecification($isHidden->notSpecification());`
+`$specification = $inPath->andSpecification($hasExtension)->andSpecification($isHidden->notSpecification());`
 
 This will find all files in the given path, that have the given extension and are not hidden.

@@ -71,7 +71,7 @@ class InPathTest extends TestCase
     public function testIfSpecificationIsSatisfied(string $dirname): void
     {
         $this->useWildcardPath();
-        $this->assertTrue($this->fixture->isSatisfiedBy(['dirname' => $dirname]));
+        $this->assertTrue($this->fixture->isSatisfiedBy(['path' => $dirname]));
     }
 
     /**
@@ -84,7 +84,7 @@ class InPathTest extends TestCase
     public function testWithSingleDotSpec(string $dirname): void
     {
         $spec = new InPath(new Path('.'));
-        $this->assertTrue($spec->isSatisfiedBy(['dirname' => $dirname]));
+        $this->assertTrue($spec->isSatisfiedBy(['path' => $dirname]));
     }
 
     /**
@@ -97,7 +97,7 @@ class InPathTest extends TestCase
     public function testWithCurrentDirSpec(string $dirname): void
     {
         $spec = new InPath(new Path('./'));
-        $this->assertTrue($spec->isSatisfiedBy(['dirname' => $dirname]));
+        $this->assertTrue($spec->isSatisfiedBy(['path' => $dirname]));
     }
 
     /**
@@ -126,7 +126,7 @@ class InPathTest extends TestCase
     public function testIfSpecificationIsNotSatisfied(string $dirname): void
     {
         $this->useWildcardPath();
-        $this->assertFalse($this->fixture->isSatisfiedBy(['dirname' => $dirname]));
+        $this->assertFalse($this->fixture->isSatisfiedBy(['path' => $dirname]));
     }
 
     /**

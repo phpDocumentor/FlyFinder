@@ -44,7 +44,7 @@ class IsHiddenTest extends TestCase
      */
     public function testIfSpecificationIsSatisfied(): void
     {
-        $this->assertTrue($this->fixture->isSatisfiedBy(['basename' => '.test']));
+        $this->assertTrue($this->fixture->isSatisfiedBy(['path' => '.test']));
     }
 
     /**
@@ -52,6 +52,6 @@ class IsHiddenTest extends TestCase
      */
     public function testIfSpecificationIsNotSatisfied(): void
     {
-        $this->assertFalse($this->fixture->isSatisfiedBy(['basename' => 'test']));
+        $this->assertFalse($this->fixture->isSatisfiedBy(['path' => 'test']));
     }
 }

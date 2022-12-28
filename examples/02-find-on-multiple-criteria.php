@@ -2,19 +2,20 @@
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 use League\Flysystem\Filesystem;
-use League\Flysystem\Memory\MemoryAdapter as Adapter;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter as Adapter;
 use Flyfinder\Finder;
 use Flyfinder\Path;
 use Flyfinder\Specification\IsHidden;
 use Flyfinder\Specification\HasExtension;
-use Flyfinder\Specification\InPath;
+use Flyfinder\Specification\InPath;use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 
 /*
  * First create a new Filesystem and add the FlySystem plugin
  * In this example we are using a filesystem with the memory adapter
  */
 $filesystem = new Filesystem(new Adapter());
-$filesystem->addPlugin(new Finder());
+$finder = new Finder();
+$finder->setFilesystem($filesystem);
 
 // Create some demo files
 $filesystem->write('test.txt', 'test');
@@ -33,7 +34,7 @@ $inPath = new InPath(new Path('.hiddendir'));
 $specification = $inPath->andSpecification($hasExtension)->andSpecification($isHidden->notSpecification());
 
 //FlyFinder will yield a generator object with the files that are found
-$generator = $filesystem->find($specification);
+$generator = $finder->find($specification);
 
 $result = [];
 

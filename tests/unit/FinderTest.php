@@ -18,8 +18,9 @@ use Flyfinder\Specification\HasExtension;
 use Flyfinder\Specification\InPath;
 use Flyfinder\Specification\IsHidden;
 use Generator;
+use League\Flysystem\DirectoryListing;
 use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 
@@ -34,7 +35,7 @@ use function trim;
 /**
  * Test case for Finder
  *
- * @coversDefaultClass Flyfinder\Finder
+ * @covers \Flyfinder\Finder
  */
 class FinderTest extends TestCase
 {
@@ -57,11 +58,6 @@ class FinderTest extends TestCase
     /**
      * @covers ::getMethod
      */
-    public function testGetMethod(): void
-    {
-        $this->assertSame('find', $this->fixture->getMethod());
-    }
-
     public function testIfNotHiddenLetsSubpathsThrough(): void
     {
         $files = ['foo/bar/.hidden/baz/not-hidden.txt'];
@@ -69,7 +65,7 @@ class FinderTest extends TestCase
         $notHidden = (new IsHidden())->notSpecification();
         $this->assertEquals(
             $files,
-            $this->generatorToFileList($this->fixture->handle($notHidden))
+            $this->generatorToFileList($this->fixture->find($notHidden))
         );
     }
 
@@ -80,7 +76,7 @@ class FinderTest extends TestCase
         $notHidden = (new IsHidden())->notSpecification()->notSpecification();
         $this->assertEquals(
             $files,
-            $this->generatorToFileList($this->fixture->handle($notHidden))
+            $this->generatorToFileList($this->fixture->find($notHidden))
         );
     }
 
@@ -94,13 +90,13 @@ class FinderTest extends TestCase
                 ->andSpecification((new HasExtension(['ext']))->notSpecification());
         $this->assertEquals(
             $files,
-            $this->generatorToFileList($this->fixture->handle($neitherHiddenNorExt))
+            $this->generatorToFileList($this->fixture->find($neitherHiddenNorExt))
         );
 
         $neitherHiddenNorExtDeMorgan = (new IsHidden())->orSpecification(new HasExtension(['ext']))->notSpecification();
         $this->assertEquals(
             $files,
-            $this->generatorToFileList($this->fixture->handle($neitherHiddenNorExtDeMorgan))
+            $this->generatorToFileList($this->fixture->find($neitherHiddenNorExtDeMorgan))
         );
     }
 
@@ -120,7 +116,7 @@ class FinderTest extends TestCase
 
         $this->assertEquals(
             ['foo/lou/time.txt'],
-            $this->generatorToFileList($this->fixture->handle($negatedOr))
+            $this->generatorToFileList($this->fixture->find($negatedOr))
         );
 
         $negatedOrDeMorgan =
@@ -129,7 +125,7 @@ class FinderTest extends TestCase
 
         $this->assertEquals(
             ['foo/lou/time.txt'],
-            $this->generatorToFileList($this->fixture->handle($negatedOrDeMorgan))
+            $this->generatorToFileList($this->fixture->find($negatedOrDeMorgan))
         );
     }
 
@@ -153,7 +149,7 @@ class FinderTest extends TestCase
 
         $this->assertEquals(
             $expected,
-            $this->generatorToFileList($this->fixture->handle($negatedAnd))
+            $this->generatorToFileList($this->fixture->find($negatedAnd))
         );
 
         $negatedAndDeMorgan =
@@ -162,7 +158,7 @@ class FinderTest extends TestCase
 
         $this->assertEquals(
             $expected,
-            $this->generatorToFileList($this->fixture->handle($negatedAndDeMorgan))
+            $this->generatorToFileList($this->fixture->find($negatedAndDeMorgan))
         );
     }
 
@@ -176,7 +172,7 @@ class FinderTest extends TestCase
         $isHidden   = m::mock(IsHidden::class);
         $filesystem = m::mock(Filesystem::class);
 
-        $listContents1 = [
+        $listContents1 = new DirectoryListing([
             0 => [
                 'type' => 'dir',
                 'path' => '.hiddendir',
@@ -189,9 +185,9 @@ class FinderTest extends TestCase
                 'path' => 'test.txt',
                 'basename' => 'test.txt',
             ],
-        ];
+        ]);
 
-        $listContents2 = [
+        $listContents2 = new DirectoryListing([
             0 => [
                 'type' => 'file',
                 'path' => '.hiddendir/.test.txt',
@@ -200,7 +196,7 @@ class FinderTest extends TestCase
                 'filename' => '.test',
                 'extension' => 'txt',
             ],
-        ];
+        ]);
 
         $filesystem->shouldReceive('listContents')
             ->with('')
@@ -211,23 +207,23 @@ class FinderTest extends TestCase
             ->andReturn($listContents2);
 
         $isHidden->shouldReceive('isSatisfiedBy')
-            ->with($listContents1[0])
+            ->with($listContents1->toArray()[0])
             ->andReturn(true);
 
         $isHidden->shouldReceive('canBeSatisfiedBySomethingBelow')
-            ->with($listContents1[0])
+            ->with($listContents1->toArray()[0])
             ->andReturn(true);
 
         $isHidden->shouldReceive('isSatisfiedBy')
-            ->with($listContents1[1])
+            ->with($listContents1->toArray()[1])
             ->andReturn(false);
 
         $isHidden->shouldReceive('isSatisfiedBy')
-            ->with($listContents2[0])
+            ->with($listContents2->toArray()[0])
             ->andReturn(true);
 
         $this->fixture->setFilesystem($filesystem);
-        $generator = $this->fixture->handle($isHidden);
+        $generator = $this->fixture->find($isHidden);
 
         $result = [];
 
@@ -282,7 +278,7 @@ class FinderTest extends TestCase
 
         $finder = $this->fixture;
         $finder->setFilesystem($filesystem);
-        $generator = $finder->handle($spec);
+        $generator = $finder->find($spec);
 
         $expected = [
             'foo/bar/baz/file.txt',
@@ -327,7 +323,7 @@ class FinderTest extends TestCase
 
         $finder = $this->fixture;
         $finder->setFilesystem($filesystem);
-        $generator = $finder->handle($spec);
+        $generator = $finder->find($spec);
         $expected  = [
             'foo/bar/baz/file.txt',
             'foo/bar/baz/file2.txt',
@@ -452,16 +448,16 @@ class FinderTest extends TestCase
      * @param string[] $paths
      * @param string[] $pathsThatShouldNotBeListed
      */
-    protected function mockFileSystem(array $paths, array $pathsThatShouldNotBeListed = []): FilesystemInterface
+    protected function mockFileSystem(array $paths, array $pathsThatShouldNotBeListed = []): FilesystemOperator
     {
         $fsData     = $this->mockFileTree($paths);
         $filesystem = m::mock(Filesystem::class);
         $filesystem->shouldReceive('listContents')
             ->zeroOrMoreTimes()
-            ->andReturnUsing(function (string $path) use ($fsData, $pathsThatShouldNotBeListed): array {
+            ->andReturnUsing(function (string $path) use ($fsData, $pathsThatShouldNotBeListed): DirectoryListing {
                 $this->assertNotContains($path, $pathsThatShouldNotBeListed);
 
-                return array_values($this->mockListContents($fsData, $path));
+                return new DirectoryListing(array_values($this->mockListContents($fsData, $path)));
             });
 
         return $filesystem;

@@ -15,6 +15,10 @@ namespace Flyfinder;
 
 use PHPUnit\Framework\TestCase;
 
+use function pathinfo;
+
+use const PATHINFO_BASENAME;
+
 /**
  * Integration test against examples/02-find-on-multiple-criteria.php
  *
@@ -26,9 +30,10 @@ class FindOnMultipleCriteriaTest extends TestCase
     {
         $result = [];
         include __DIR__ . '/../../examples/02-find-on-multiple-criteria.php';
+        $basenameOf = static fn ($value) => pathinfo($value['path'], PATHINFO_BASENAME);
 
         $this->assertCount(2, $result);
-        $this->assertSame('found.txt', $result[0]['basename']);
-        $this->assertSame('example.txt', $result[1]['basename']);
+        $this->assertSame('found.txt', $basenameOf($result[0]));
+        $this->assertSame('example.txt', $basenameOf($result[1]));
     }
 }
