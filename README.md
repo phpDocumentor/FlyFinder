@@ -20,7 +20,7 @@ Flyfinder does *not* return directories themselves... only files.
 
 The easiest way to install this library is with [Composer](https://getcomposer.org) using the following command:
 
-    $ composer require rulatir/flyfinder
+    $ composer require phpdocumentor/flyfinder
 
 ## Examples
 
