@@ -16,6 +16,7 @@ namespace Flyfinder;
 use PHPUnit\Framework\TestCase;
 
 use function pathinfo;
+use function sort;
 
 use const PATHINFO_BASENAME;
 
