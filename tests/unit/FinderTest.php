@@ -55,9 +55,6 @@ class FinderTest extends TestCase
         m::close();
     }
 
-    /**
-     * @covers ::getMethod
-     */
     public function testIfNotHiddenLetsSubpathsThrough(): void
     {
         $files = ['foo/bar/.hidden/baz/not-hidden.txt'];
@@ -162,11 +159,6 @@ class FinderTest extends TestCase
         );
     }
 
-    /**
-     * @covers ::handle
-     * @covers ::setFilesystem
-     * @covers ::<private>
-     */
     public function testIfCorrectFilesAreBeingYielded(): void
     {
         $isHidden   = m::mock(IsHidden::class);

@@ -32,10 +32,11 @@ class FindOnSamplePhpdocLayoutTest extends TestCase
         include __DIR__ . '/../../examples/03-sample-phpdoc-layout.php';
         $basenameOf = static fn ($value) => pathinfo($value['path'], PATHINFO_BASENAME);
 
+        sort($result);
         $this->assertCount(4, $result);
-        $this->assertSame('Bootstrap.php', $basenameOf($result[0]));
-        $this->assertSame('Application.php', $basenameOf($result[1]));
-        $this->assertSame('JmsSerializerServiceProvider.php', $basenameOf($result[2]));
-        $this->assertSame('MonologServiceProvider.php', $basenameOf($result[3]));
+        $this->assertSame('Bootstrap.php', $basenameOf($result[3]));
+        $this->assertSame('Application.php', $basenameOf($result[2]));
+        $this->assertSame('JmsSerializerServiceProvider.php', $basenameOf($result[0]));
+        $this->assertSame('MonologServiceProvider.php', $basenameOf($result[1]));
     }
 }
