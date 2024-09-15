@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phive xmlns="https://phar.io/phive">
-  <phar name="phpunit" version="^8.4.3" installed="8.5.25" location="./tools/phpunit" copy="true"/>
-  <phar name="phpstan" version="^1.4.0" installed="1.4.10" location="./tools/phpstan" copy="true"/>
-  <phar name="psalm" version="^4.22.0" installed="4.22.0" location="./tools/psalm" copy="true"/>
   <phar name="composer-require-checker" version="^1.0.0" installed="1.1.0" location="./tools/composer-require-checker" copy="true"/>
 </phive>
