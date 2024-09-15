@@ -2,7 +2,7 @@
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 use League\Flysystem\Filesystem;
-use League\Flysystem\Adapter\Local;
+use League\Flysystem\Local\LocalFilesystemAdapter as Local;
 use Flyfinder\Finder;
 use Flyfinder\Path;
 use Flyfinder\Specification\IsHidden;
@@ -12,7 +12,8 @@ use Flyfinder\Specification\AndSpecification;
 
 // (03-sample-files based on some phpDocumentor2 src files)
 $filesystem = new Filesystem(new Local(__DIR__ . '/03-sample-files'));
-$filesystem->addPlugin(new Finder());
+$finder = new Finder();
+$finder->setFilesystem($filesystem);
 
 /*
  * "phpdoc -d src -i src/phpDocumentor/DomainModel"
@@ -27,7 +28,7 @@ $spec = new AndSpecification($dashDirectoryPath, $dashIgnorePath->notSpecificati
 $spec->andSpecification($isHidden->notSpecification());
 $spec->andSpecification($isPhpFile);
 
-$generator = $filesystem->find($spec);
+$generator = $finder->find($spec);
 $result = [];
 foreach($generator as $value) {
     $result[] = $value;

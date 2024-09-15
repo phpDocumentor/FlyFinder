@@ -45,7 +45,7 @@ class HasExtensionTest extends TestCase
      */
     public function testIfSpecificationIsSatisfied(): void
     {
-        $this->assertTrue($this->fixture->isSatisfiedBy(['extension' => 'txt']));
+        $this->assertTrue($this->fixture->isSatisfiedBy(['path' => 'foo.txt']));
     }
 
     /**
@@ -54,6 +54,6 @@ class HasExtensionTest extends TestCase
      */
     public function testIfSpecificationIsNotSatisfied(): void
     {
-        $this->assertFalse($this->fixture->isSatisfiedBy(['extension' => 'php']));
+        $this->assertFalse($this->fixture->isSatisfiedBy(['path' => 'foo.php']));
     }
 }

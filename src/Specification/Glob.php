@@ -17,18 +17,20 @@ declare(strict_types=1);
 namespace Flyfinder\Specification;
 
 use InvalidArgumentException;
+use League\Flysystem\StorageAttributes;
 
+use function array_merge;
 use function array_slice;
 use function count;
 use function explode;
 use function implode;
+use function is_array;
 use function max;
 use function min;
 use function preg_match;
 use function rtrim;
 use function sprintf;
 use function strlen;
-use function strpos;
 use function substr;
 
 /**
@@ -74,14 +76,12 @@ final class Glob extends CompositeSpecification
         $this->totalPrefix   = self::getTotalPrefix($glob);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function isSatisfiedBy(array $value): bool
+    public function isSatisfiedBy(array|StorageAttributes $value): bool
     {
         //Flysystem paths are not absolute, so make it that way.
-        $path = '/' . $value['path'];
-        if (strpos($path, $this->staticPrefix) !== 0) {
+        /** @psalm-suppress ImpureMethodCall */
+        $path = '/' . (string) $value['path'];
+        if (!str_starts_with($path, $this->staticPrefix)) {
             return false;
         }
 
@@ -209,13 +209,13 @@ final class Glob extends CompositeSpecification
     }
 
     /**
-     * Asserts that glob is well formed
+     * Asserts that glob is well-formed
      *
      * @psalm-pure
      */
     private static function assertValidGlob(string $glob): void
     {
-        if (strpos($glob, '/') !== 0 && strpos($glob, '://') === false) {
+        if (!str_starts_with($glob, '/') && !str_contains($glob, '://')) {
             throw new InvalidArgumentException(sprintf(
                 'The glob "%s" is not absolute and not a URI.',
                 $glob
@@ -357,10 +357,10 @@ final class Glob extends CompositeSpecification
         return $delimiter . '^' . $regex . '$' . $delimiter;
     }
 
-    /** @inheritDoc */
-    public function canBeSatisfiedBySomethingBelow(array $value): bool
+    public function canBeSatisfiedBySomethingBelow(array|StorageAttributes $value): bool
     {
-        $valueSegments             = explode('/', '/' . $value['path']);
+        /** @psalm-suppress ImpureMethodCall */
+        $valueSegments             = explode('/', '/' . (string) $value['path']);
         $boundedPrefixSegments     = explode('/', rtrim($this->boundedPrefix, '/'));
         $howManySegmentsToConsider = min(count($valueSegments), count($boundedPrefixSegments));
         $boundedPrefixGlob         = implode('/', array_slice($boundedPrefixSegments, 0, $howManySegmentsToConsider));
@@ -368,8 +368,11 @@ final class Glob extends CompositeSpecification
             '/',
             array_slice($valueSegments, 1, max($howManySegmentsToConsider - 1, 0))
         );
-        $prefixValue               = $value;
-        $prefixValue['path']       = $valuePathPrefix;
+
+        /** @psalm-suppress ImpureMethodCall */
+        $prefixValue = is_array($value)
+            ? array_merge($value, ['path' => $valuePathPrefix])
+            : $value->withPath($valuePathPrefix);
 
         if ($boundedPrefixGlob === '') {
             $boundedPrefixGlob = '/';
@@ -380,16 +383,16 @@ final class Glob extends CompositeSpecification
         return $spec->isSatisfiedBy($prefixValue);
     }
 
-    /** @inheritDoc */
-    public function willBeSatisfiedByEverythingBelow(array $value): bool
+    public function willBeSatisfiedByEverythingBelow(array|StorageAttributes $value): bool
     {
         if ($this->totalPrefix === null) {
             return false;
         }
 
-        $spec                    = new Glob(rtrim($this->totalPrefix, '/') . '/**/*');
-        $terminatedValue         = $value;
-        $terminatedValue['path'] = rtrim($terminatedValue['path'], '/') . '/x/x';
+        $spec            = new Glob(rtrim($this->totalPrefix, '/') . '/**/*');
+        $terminatedValue = $value;
+        /** @psalm-suppress ImpureMethodCall */
+        $terminatedValue['path'] = rtrim((string) $terminatedValue['path'], '/') . '/x/x';
 
         return $spec->isSatisfiedBy($terminatedValue);
     }

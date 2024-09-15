@@ -2,7 +2,7 @@
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 use League\Flysystem\Filesystem;
-use League\Flysystem\Memory\MemoryAdapter as Adapter;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter as Adapter;
 use Flyfinder\Finder;
 use Flyfinder\Specification\IsHidden;
 
@@ -11,7 +11,8 @@ use Flyfinder\Specification\IsHidden;
  * In this example we are using a filesystem with the memory adapter
  */
 $filesystem = new Filesystem(new Adapter());
-$filesystem->addPlugin(new Finder());
+$finder = new Finder();
+$finder->setFilesystem($filesystem);
 
 // Create some demo files
 $filesystem->write('test.txt', 'test');
@@ -22,7 +23,7 @@ $filesystem->write('.hiddendir/.test.txt', 'test');
 $specification = new IsHidden();
 
 //FlyFinder will yield a generator object with the files that are found
-$generator = $filesystem->find($specification);
+$generator = $finder->find($specification);
 
 $result = [];
 
