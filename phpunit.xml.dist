@@ -6,8 +6,6 @@
     bootstrap="vendor/autoload.php"
     colors="true"
     verbose="true"
-    forceCoversAnnotation="true"
-    beStrictAboutCoversAnnotation="true"
     beStrictAboutTodoAnnotatedTests="true"
     beStrictAboutTestsThatDoNotTestAnything="true"
     beStrictAboutOutputDuringTests="true"

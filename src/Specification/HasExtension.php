@@ -50,6 +50,6 @@ class HasExtension extends CompositeSpecification
         preg_match('/\.([^.]+)$/', (string) $value['path'], $matches);
         $extension = $matches[1] ?? null;
 
-        return $extension && in_array($extension, $this->extensions, false);
+        return $extension !== null && in_array($extension, $this->extensions, false);
     }
 }

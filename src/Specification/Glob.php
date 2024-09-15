@@ -40,7 +40,7 @@ use function substr;
  */
 final class Glob extends CompositeSpecification
 {
-    /** @var string */
+    /** @var non-empty-string string */
     private $regex;
 
     /**
@@ -240,7 +240,7 @@ final class Glob extends CompositeSpecification
      *                      slashes as directory separators only. It must not
      *                      contain any "." or ".." segments.
      *
-     * @return string The regular expression for matching the glob.
+     * @return non-empty-string The regular expression for matching the glob.
      *
      * @psalm-pure
      */
@@ -378,9 +378,7 @@ final class Glob extends CompositeSpecification
             $boundedPrefixGlob = '/';
         }
 
-        $spec = new Glob($boundedPrefixGlob);
-
-        return $spec->isSatisfiedBy($prefixValue);
+        return (new Glob($boundedPrefixGlob))->isSatisfiedBy($prefixValue);
     }
 
     public function willBeSatisfiedByEverythingBelow(array|StorageAttributes $value): bool
