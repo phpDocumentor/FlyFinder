@@ -6,6 +6,7 @@ namespace Flyfinder\Specification;
 
 use Generator;
 use InvalidArgumentException;
+use League\Flysystem\DirectoryAttributes;
 use PHPUnit\Framework\TestCase;
 
 use function is_array;
@@ -68,6 +69,41 @@ final class GlobTest extends TestCase
     {
         $glob = new Glob('/**/*');
         $this->assertTrue($glob->canBeSatisfiedBySomethingBelow(['path' => 'src']));
+    }
+
+    /**
+     * @covers ::willBeSatisfiedByEverythingBelow
+     * @dataProvider everythingBelowProvider
+     */
+    public function testWillBeSatisfiedByEverythingBelowAnArray(string $pattern, string $path, bool $expected): void
+    {
+        $glob = new Glob($pattern);
+        $this->assertSame($expected, $glob->willBeSatisfiedByEverythingBelow(['path' => $path]));
+    }
+
+    /**
+     * @covers ::willBeSatisfiedByEverythingBelow
+     * @dataProvider everythingBelowProvider
+     */
+    public function testWillBeSatisfiedByEverythingBelowStorageAttributes(
+        string $pattern,
+        string $path,
+        bool $expected
+    ): void {
+        $glob = new Glob($pattern);
+        $this->assertSame($expected, $glob->willBeSatisfiedByEverythingBelow(new DirectoryAttributes($path)));
+    }
+
+    public function everythingBelowProvider(): Generator
+    {
+        yield 'directory itself' => ['/src/**/*', 'src', true];
+        yield 'subdirectory' => ['/src/**/*', 'src/subdir', true];
+        yield 'other directory' => ['/src/**/*', 'tests', false];
+        yield 'wildcard directory' => ['/docs/*/drafts/**/*', 'docs/en/drafts', true];
+        yield 'below wildcard directory' => ['/docs/*/drafts/**/*', 'docs/en/drafts/old', true];
+        yield 'parent of wildcard directory' => ['/docs/*/drafts/**/*', 'docs/en', false];
+        yield 'sibling of wildcard directory' => ['/docs/*/drafts/**/*', 'docs/en/final', false];
+        yield 'too deep for wildcard' => ['/docs/*/drafts/**/*', 'docs/en/us/drafts', false];
     }
 
     public function invalidPatternProvider(): Generator
