@@ -387,10 +387,14 @@ final class Glob extends CompositeSpecification
             return false;
         }
 
-        $spec            = new Glob(rtrim($this->totalPrefix, '/') . '/**/*');
-        $terminatedValue = $value;
+        $spec = new Glob(rtrim($this->totalPrefix, '/') . '/**/*');
         /** @psalm-suppress ImpureMethodCall */
-        $terminatedValue['path'] = rtrim((string) $terminatedValue['path'], '/') . '/x/x';
+        $terminatedPath = rtrim((string) $value['path'], '/') . '/x/x';
+
+        /** @psalm-suppress ImpureMethodCall */
+        $terminatedValue = is_array($value)
+            ? array_merge($value, ['path' => $terminatedPath])
+            : $value->withPath($terminatedPath);
 
         return $spec->isSatisfiedBy($terminatedValue);
     }
